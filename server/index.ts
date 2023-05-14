@@ -2,7 +2,6 @@ import express, {Express, Request, Response} from 'express'
 import dotenv from 'dotenv';
 import cors from 'cors'
 import fileUpload from 'express-fileupload'
-import {sequelize} from "./db";
 import errorHandler from './middleware/ErrorHandlingMiddleWare'
 import path from "path";
 
@@ -18,8 +17,8 @@ app.use(errorHandler)
 
 const start = async () => {
     try {
-        await sequelize.authenticate()
-        await sequelize.sync()
+        /*await sequelize.authenticate()
+        await sequelize.sync()*/
         app.listen(port, () => {
             console.log(`⚡️[server]: Server is running at http://localhost:${port}`);
         })
