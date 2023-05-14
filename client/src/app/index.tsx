@@ -1,11 +1,13 @@
-import React from 'react'
+import React, {lazy} from 'react'
+import {withProviders} from './providers'
+import './index.scss'
 
-function Index() {
+const Routing = lazy(() => import('../pages'))
+
+function App() {
   return (
-    <div>
-      Hello world!
-    </div>
+    <Routing />
   )
 }
 
-export default Index
+export default withProviders(App)
