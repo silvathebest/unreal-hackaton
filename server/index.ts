@@ -5,6 +5,8 @@ import fileUpload from 'express-fileupload'
 import errorHandler from './middleware/ErrorHandlingMiddleWare'
 import path from 'path'
 import {sequelize} from './db'
+import './models/models'
+import router from './routes/index'
 
 dotenv.config()
 const port = process.env.PORT || 8080
@@ -14,6 +16,7 @@ app.use(cors())
 app.use(express.json())
 app.use(express.static(path.resolve(__dirname, '../static')))
 app.use(fileUpload({}))
+app.use('/api', router)
 app.use(errorHandler)
 
 const start = async () => {
