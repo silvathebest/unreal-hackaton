@@ -1,6 +1,7 @@
 import {Button, TextField} from '@mui/material'
 import React, {useState} from 'react'
 import {useDispatch} from 'react-redux'
+import {UserAuth} from 'entities/user'
 import img from './img/img.png'
 import img1 from './img/img_1.png'
 import img2 from './img/img_2.png'
@@ -9,21 +10,24 @@ import styles from './styles.module.scss'
 
 const Login = () => {
   const dispatch = useDispatch()
-
-  const [credentials, setCredentials] = useState({email: '', password: ''})
+  const [credentials, setCredentials] = useState({login: '', password: ''})
   const [isSubmit, setIsSubmit] = useState(false)
+
+  // TODO: Сделать обработку isError
+  const {refetch} = UserAuth(credentials.login, credentials.password, dispatch)
 
   const onChangeCredentialsHandler = (event: React.ChangeEvent<HTMLInputElement>) =>
     setCredentials((prevState) => ({...prevState, [event.target.name]: event.target.value}))
 
-  const onSubmitHandler = () => {
+  const onSubmitHandler = (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
     if (isSubmit) return
 
     setIsSubmit(true)
 
-    // TODO делать login
+    refetch().finally(() => setIsSubmit(false))
   }
-
 
   return (
     <div className={styles.container}>
@@ -68,12 +72,11 @@ const Login = () => {
             </h4>
             <form className={styles.form} onSubmit={onSubmitHandler}>
               <TextField
-                name='email'
+                name='login'
                 label='Логин'
-                value={credentials.email}
+                value={credentials.login}
                 onChange={onChangeCredentialsHandler}
-                type='email'
-                autoComplete='email'
+                type='login'
                 fullWidth
               />
               <TextField
@@ -82,7 +85,6 @@ const Login = () => {
                 value={credentials.password}
                 onChange={onChangeCredentialsHandler}
                 type='password'
-                autoComplete='current-password'
                 fullWidth
               />
               <Button
