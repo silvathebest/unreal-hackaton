@@ -51,7 +51,3 @@ export const login = async (req: UserAuthRequest, res: Response, next: NextFunct
   const token = generateJWT(user.id, user.login)
   return res.json({token})
 }
-
-export const check = async (req: Request, res: Response, next: NextFunction) => {
-  // TODO: Доделать
-}

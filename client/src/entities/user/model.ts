@@ -38,7 +38,7 @@ export const {setUser, clearUser} = userModel.actions
 
 export const UserAuth = (login: string, password: string, dispatch: Dispatch) =>
   useQuery<AxiosResponse<{token: string}>, ErrorResponsesType>(
-    'getTranslators',
+    'userAuth',
     () => axios.post('/user/login', {login, password}),
     {
       onSuccess: ({data}) => {
