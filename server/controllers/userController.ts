@@ -3,6 +3,9 @@ import jwt from 'jsonwebtoken'
 import {ApiError} from '../error/ApiError'
 import {User} from '../models/models'
 import {NextFunction, Request, Response} from 'express'
+import dotenv from 'dotenv'
+
+dotenv.config()
 
 interface UserAuthRequest extends Request {
   body: {
