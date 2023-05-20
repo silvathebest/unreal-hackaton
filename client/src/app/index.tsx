@@ -7,6 +7,7 @@ import './index.scss'
 const Routing = lazy(() => import('../pages'))
 
 const STAGE_API = 'http://localhost:8000/api'
+const PROD_API = 'https://hackaton-qn2w.onrender.com/api'
 let isInitApi = false
 
 function App() {
@@ -15,7 +16,7 @@ function App() {
     if (isInitApi) return
     isInitApi = true
 
-    axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? STAGE_API : window.location.origin + '/api'
+    axios.defaults.baseURL = process.env.NODE_ENV === 'development' ? STAGE_API : PROD_API
     const token = getToken()
     if (token) setBearer(token)
   }, [])
