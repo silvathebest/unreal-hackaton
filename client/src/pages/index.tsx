@@ -6,7 +6,7 @@ import {getToken} from 'shared/lib'
 
 const HomePage = lazy(() => import('./home'))
 const LoginPage = lazy(() => import('./login'))
-const Sidebar = lazy(() => import('./sidebar'))
+const Sidebar = lazy(() => import('../widgets/sidebar'))
 
 const Routing = () => {
   const dispatch = useDispatch()

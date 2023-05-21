@@ -1,7 +1,8 @@
+import Sidebar from '../../widgets/sidebar'
 const Home = () => {
   return (
     <div>
-      Home page
+      <Sidebar />
     </div>
   )
 }

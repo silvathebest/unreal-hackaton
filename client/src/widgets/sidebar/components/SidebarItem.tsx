@@ -3,7 +3,8 @@ import {useSelector} from 'react-redux'
 import {Link} from 'react-router-dom'
 // import colorConfigs from '../../configs/colorConfigs';
 // import {RootState} from '../../redux/store';
-import {RouteType} from '../config'
+import {RouteType} from '../routeTypeConfig'
+import stylesConfig from '../stylesConfig'
 
 type Props = {
   item: RouteType;
@@ -17,20 +18,9 @@ const SidebarItem = ({item}: Props) => {
       <ListItemButton
         component={Link}
         to={item.path}
-        sx={{
-          '&: hover': {
-            backgroundColor: '#fff'
-          },
-          // backgroundColor: appState === item.state ? colorConfigs.sidebar.activeBg : "unset",
-          paddingY: '12px',
-          paddingX: '24px',
-          fontFamily: 'sans-serif',
-        }}
+        sx={stylesConfig.listItemButton}
       >
-        <ListItemIcon sx={{
-          color: '#fff', //colorConfigs.sidebar.color
-          minWidth: '30px',
-        }}>
+        <ListItemIcon sx={stylesConfig.listItemIcon}>
           {item.sidebarProps.icon}
         </ListItemIcon>
         {item.sidebarProps.displayText}
