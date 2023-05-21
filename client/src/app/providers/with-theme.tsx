@@ -17,7 +17,7 @@ export const withTheme = (component: () => React.ReactNode) => () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <CssBaseline />
+      {/*<CssBaseline />*/}
       {component()}
     </ThemeProvider>
   )

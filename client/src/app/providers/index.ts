@@ -4,4 +4,4 @@ import {withRouter} from './with-router'
 import {withStore} from './with-store'
 import {withTheme} from './with-theme'
 
-export const withProviders = compose(withQuery, withRouter, withStore, withTheme)
+export const withProviders = compose(withQuery, withRouter, withStore)

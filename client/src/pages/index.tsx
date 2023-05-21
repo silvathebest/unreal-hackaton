@@ -6,6 +6,7 @@ import {getToken} from 'shared/lib'
 
 const HomePage = lazy(() => import('./home'))
 const LoginPage = lazy(() => import('./login'))
+const Sidebar = lazy(() => import('./sidebar'))
 
 const Routing = () => {
   const dispatch = useDispatch()
@@ -37,6 +38,7 @@ const Routing = () => {
     <Suspense fallback='Loading...'>
       <Routes>
         <Route path='/home' element={<HomePage />} />
+        <Route path='/sidebar' element={<Sidebar />} />
         <Route path='*' element={<Navigate to='/home' />} />
       </Routes>
     </Suspense>

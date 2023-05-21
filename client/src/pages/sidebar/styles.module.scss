@@ -1,0 +1,17 @@
+@import 'shared/styles/vars';
+
+.header {
+  font-family: sans-serif;
+  font-size: 25px;
+  line-height: 25px;
+  color: $gray76;
+  margin-left: 12px;
+}
+
+.toolbar {
+  paddingLeft: '18px'
+}
+
+.logo {
+  width: 32px
+}
