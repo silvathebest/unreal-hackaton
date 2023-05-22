@@ -1,0 +1,12 @@
+@import 'shared/styles/vars.scss';
+@import 'shared/styles/typography.scss';
+
+.override-mui-textField {
+  .MuiFormLabel-root {
+    font-family: $fontFamily;
+  }
+
+  .MuiOutlinedInput-notchedOutline {
+    border-color: $gray5;
+  }
+}

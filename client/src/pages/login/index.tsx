@@ -1,7 +1,7 @@
-import {Button, TextField} from '@mui/material'
 import React, {useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {UserAuth} from 'entities/user'
+import {Button, TextField} from 'shared/overrideMui'
 import img from './img/img.png'
 import img1 from './img/img_1.png'
 import img2 from './img/img_2.png'
