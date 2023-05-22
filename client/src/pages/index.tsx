@@ -4,7 +4,8 @@ import {Navigate, Route, Routes} from 'react-router-dom'
 import {setUser, useIsAuthenticated} from 'entities/user'
 import {getToken} from 'shared/lib'
 
-const HomePage = lazy(() => import('./home'))
+const ReportsPage = lazy(() => import('./reports'))
+const TasksPage = lazy(() => import('./tasks'))
 const LoginPage = lazy(() => import('./login'))
 
 const Routing = () => {
@@ -36,8 +37,9 @@ const Routing = () => {
   return (
     <Suspense fallback='Loading...'>
       <Routes>
-        <Route path='/home' element={<HomePage />} />
-        <Route path='*' element={<Navigate to='/home' />} />
+        <Route path='/reports' element={<ReportsPage />} />
+        <Route path='/tasks' element={<TasksPage />} />
+        <Route path='*' element={<Navigate to='/reports' />} />
       </Routes>
     </Suspense>
   )
