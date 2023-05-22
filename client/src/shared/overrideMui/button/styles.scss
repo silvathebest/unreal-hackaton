@@ -3,6 +3,14 @@
 
 .override-mui-button {
   &.MuiButton-root {
-    font: $fontMediumMD;
+    font: $fontMediumS;
+    background: $primary;
+    border-radius: 6px;
+    height: 34px;
+    line-height: 16px;
+
+    &:hover {
+      background: $primary110;
+    }
   }
 }

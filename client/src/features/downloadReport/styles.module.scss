@@ -1,0 +1,78 @@
+@import 'shared/styles/vars';
+@import 'shared/styles/typography';
+
+.file {
+  display: none;
+}
+
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  background: $white;
+  transform: translate(-50%, -50%);
+  border: 1px solid $gray5;
+  border-radius: 6px;
+  outline: none;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  width: 375px;
+
+  .reportTitle {
+    height: 34px;
+    outline: none;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 16px;
+    color: $gray76;
+    border-radius: 6px;
+    border: 1px solid transparent;
+
+    &:hover {
+      background: $gray4;
+    }
+
+    &:focus {
+      background: $white;
+      border: 1px solid $primary;
+    }
+
+    &::placeholder {
+      color: $gray50;
+    }
+  }
+
+  .fileInfoWrapper {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    .fileInfo {
+      display: flex;
+      gap: 12px;
+
+      .xlsx {
+        height: 42px;
+      }
+
+      .text {
+        color: $gray50;
+        font: $fontRegularS;
+        line-height: $lineHeightS;
+      }
+    }
+
+    .deleteIcon {
+      display: flex;
+      padding: 2px;
+      cursor: pointer;
+      border-radius: 6px;
+
+      &:hover {
+        background: $gray4;
+      }
+    }
+  }
+}
