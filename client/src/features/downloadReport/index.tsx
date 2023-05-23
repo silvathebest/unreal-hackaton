@@ -31,8 +31,6 @@ export const DownloadReport: FC<DownloadReportProps> = ({isOpen, onClose}) => {
     inputFileRef.current?.click()
   }
 
-  console.log(file)
-
   return (
     <>
       <Modal
