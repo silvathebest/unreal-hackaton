@@ -1,8 +1,74 @@
+@import "shared/styles/vars";
+@import "shared/styles/typography";
+
 .root {
   display: flex;
   height: 100vh;
 
-  .workArea {
+  .workAreaWrapper {
     flex: 1;
+
+    .workArea {
+
+      .filters {
+        display: flex;
+        gap: 12px;
+        padding: 18px;
+
+        .icon {
+          cursor: pointer;
+
+          div {
+            display: flex;
+          }
+        }
+
+        .search {
+          display: flex;
+          align-items: center;
+          padding: 0 8px;
+          gap: 8px;
+          border: 1px solid $gray8;
+          border-radius: 6px;
+          height: 34px;
+          box-sizing: border-box;
+          box-shadow: $shadow2;
+
+          .searchInput {
+            outline: none;
+            border: unset;
+            color: $gray76;
+            font: $fontMediumS;
+            line-height: $lineHeightS;
+
+            &::placeholder {
+              color: $gray50;
+            }
+          }
+
+          &:focus-within {
+            border-color: $primary;
+          }
+        }
+
+        .button {
+          display: flex;
+          align-items: center;
+          padding: 0 8px;
+          gap: 8px;
+          border: 1px solid $gray8;
+          border-radius: 6px;
+          height: 34px;
+          box-sizing: border-box;
+          box-shadow: $shadow2;
+          cursor: pointer;
+
+          &:hover {
+            background: $gray2;
+            border-color: $gray10;
+          }
+        }
+      }
+    }
   }
 }
