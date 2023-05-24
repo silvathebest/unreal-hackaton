@@ -6,6 +6,7 @@ import errorHandler from './middleware/ErrorHandlingMiddleWare'
 import {sequelize} from './db'
 import './models/models'
 import router from './routes/index'
+import swaggerDocs from './utils/swagger'
 
 dotenv.config()
 const port = process.env.PORT || 8080
@@ -29,6 +30,7 @@ const start = async () => {
     await sequelize.sync()
     app.listen(port, () => {
       console.log(`⚡️[server]: Server is running at http://localhost:${port}`)
+      swaggerDocs(app, port)
     })
   } catch (e) {
     console.error(e)
