@@ -20,7 +20,6 @@ export const uploadReport = async (req: Request, res: Response, next: NextFuncti
       })
     }
 
-
     // @ts-ignore
     file.mv('./static/' + file.name)
     // @ts-ignore
@@ -59,7 +58,7 @@ export const uploadReport = async (req: Request, res: Response, next: NextFuncti
 
     // @ts-ignore
     ReportData.bulkCreate(json).then(result => {
-      console.log(result.map(item => console.log(item)))
+      result.map(item => console.log(item))
     })
 
     return res.status(200).send('FILE IN PROGRESS')
