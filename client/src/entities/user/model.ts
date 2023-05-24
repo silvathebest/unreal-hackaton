@@ -38,14 +38,14 @@ export const userModel = createSlice({
 export const {setUser, clearUser} = userModel.actions
 
 export const UserAuth = (login: string, password: string, dispatch: Dispatch) =>
-  useQuery<AxiosResponse<{token: string, userInfo: User}>, ErrorResponsesType>(
+  useQuery<AxiosResponse<{token: string, userLogin: User}>, ErrorResponsesType>(
     'userAuth',
     () => axios.post('/user/login', {login, password}),
     {
       onSuccess: ({data}) => {
         setToken(data.token)
-        setUserLs(data.userInfo)
-        dispatch(setUser(data.userInfo))
+        setUserLs(data.userLogin)
+        dispatch(setUser(data.userLogin))
       },
       enabled: false,
       refetchOnWindowFocus: false,

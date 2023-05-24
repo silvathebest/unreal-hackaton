@@ -17,6 +17,7 @@
     font-weight: bold;
     align-items: center;
     border-bottom: 1px solid $gray5;
+    cursor: pointer;
 
     .folderIcon {
       width: 32px;
@@ -87,6 +88,10 @@
       &.active {
         background: $gray4;
       }
+    }
+
+    .link:hover {
+      background: $gray4;
     }
 
     .recentlyAdded {

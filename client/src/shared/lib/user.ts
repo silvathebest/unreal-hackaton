@@ -2,7 +2,7 @@ import {User} from 'entities/user'
 
 export const USER_KEY = 'user'
 
-export const setUserLs = (user: object) => {
+export const setUserLs = (user: User) => {
   localStorage.setItem(USER_KEY, JSON.stringify(user))
 }
 

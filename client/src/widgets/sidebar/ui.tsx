@@ -1,12 +1,15 @@
 import {
-  Divider, ListItemIcon, ListItemText,
-  MenuItem, MenuList, Paper, Menu
+  Divider, ListItemText,
+  MenuItem
 } from '@mui/material'
-import React, {useState} from 'react'
+import React, {useState, useEffect} from 'react'
+import {useDispatch} from 'react-redux'
 import {NavLink} from 'react-router-dom'
 import {ReactSVG} from 'react-svg'
+import {clearUser} from 'entities/user'
 import {DownloadReport} from 'features/downloadReport'
 import {Button} from 'shared/overrideMui'
+import {Menu} from 'shared/overrideMui/menu'
 import {SidebarItem, sidebarList, RecentlyAddedItem, recentlyAddedItems} from './config'
 import exitIcon from './img/exit.svg'
 import medfolderIcon from './img/medfolder.svg'
@@ -23,10 +26,23 @@ export const Sidebar = () => {
   const [isShowRecentlyAdded, setShowRecentlyAdded] = useState(true)
   const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
   const open = Boolean(anchorEl)
+  const dispatch = useDispatch()
   const handleClose = () => setAnchorEl(null)
   const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
     setAnchorEl(event.currentTarget)
   }
+  const [login, setLogin] = useState<string>('')
+  const logOut = () => {
+    dispatch(clearUser())
+  }
+
+  useEffect(() => {
+    const userLogin = localStorage.getItem('user')
+    if (userLogin) {
+      const login = JSON.parse(userLogin) as string
+      setLogin(login)
+    }
+  }, [])
 
   const createIcon = (name: String) => {
     return (<div className={styles.customIcon}>{name[0]}</div>)
@@ -109,29 +125,30 @@ export const Sidebar = () => {
       <Menu id='menu' anchorEl={anchorEl} open={open} MenuListProps={{
         'aria-labelledby': 'menu-button',
       }} onClose={handleClose}>
-        <ListItemText>Логин</ListItemText>
+        <div className='menu-header'>{login}</div>
+        <Divider />
         <MenuItem onClick={handleClose}>
-          <ReactSVG className={styles.menuIcon} src={medfolderRedIcon} />
+          <ReactSVG className='menu-icon' src={medfolderRedIcon} />
           <ListItemText>Учреждение</ListItemText>
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          <ReactSVG className={styles.menuIcon} src={medfolderBlueIcon} />
+          <ReactSVG className='menu-icon' src={medfolderBlueIcon} />
           <ListItemText>Отделение</ListItemText>
         </MenuItem>
+        <Divider />
         <MenuItem onClick={handleClose}>
-          <ReactSVG className={styles.menuIcon} src={settingsIcon} />
+          <ReactSVG className='menu-icon-20' src={settingsIcon} />
           <ListItemText>Настройки</ListItemText>
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          <ReactSVG className={styles.menuIcon} src={sunIcon} />
+          <ReactSVG className='menu-icon-20' src={sunIcon} />
           <ListItemText>Темный режим</ListItemText>
         </MenuItem>
         <MenuItem onClick={handleClose}>
-          <ReactSVG className={styles.menuIcon} src={exitIcon} />
-          <ListItemText>Выход</ListItemText>
+          <ReactSVG className='menu-icon-20' src={exitIcon} />
+          <ListItemText onClick={logOut}>Выход</ListItemText>
         </MenuItem>
       </Menu>
     </>
-
   )
 }

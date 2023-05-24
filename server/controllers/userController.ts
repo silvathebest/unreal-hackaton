@@ -52,5 +52,6 @@ export const login = async (req: UserAuthRequest, res: Response, next: NextFunct
   }
 
   const token = generateJWT(user.id, user.login)
-  return res.json({token})
+  const userLogin = user.login
+  return res.json({token, userLogin})
 }
