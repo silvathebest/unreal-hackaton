@@ -33,7 +33,7 @@ export const uploadReport = async (req: Request, res: Response, next: NextFuncti
       message: 'User not found'
     })
 
-    const report = await Report.create({userId: user.id})
+    const report = await Report.create({userId: user.id, name: req.body.name, icon: req.body.icon || ''})
 
     const json = utils.sheet_to_json(workSheet)
     for (const item of json) {
@@ -47,8 +47,6 @@ export const uploadReport = async (req: Request, res: Response, next: NextFuncti
       replaceKeys(typedItem, 'Должность', 'position')
       replaceKeys(typedItem, 'Назначения', 'appointments')
       // @ts-ignore
-      console.log('clientDateBirth', item.clientDateBirth, moment(item.clientDateBirth, 'DD.MM.YYYY', 'ru').toJSON())
-      // @ts-ignore
       item.clientDateBirth = moment(item.clientDateBirth, 'DD.MM.YYYY', 'ru').toJSON()
       // @ts-ignore
       item.serviceDate = moment(item.serviceDate, 'DD.MM.YYYY', 'ru').toJSON()
@@ -57,13 +55,10 @@ export const uploadReport = async (req: Request, res: Response, next: NextFuncti
     }
 
     // @ts-ignore
-    ReportData.bulkCreate(json).then(result => {
-      result.map(item => console.log(item))
-    })
+    ReportData.bulkCreate(json)
 
     return res.status(200).send('FILE IN PROGRESS')
   } catch (err) {
-    console.log(err)
     return res.status(200).json({
       status: 'failed',
       code: '500',

@@ -15,13 +15,17 @@ export const User = sequelize.define<UserModel>('users', {
 })
 
 interface ReportModel extends Model<InferAttributes<ReportModel>, InferCreationAttributes<ReportModel>> {
-  id: CreationOptional<number>
+  id: CreationOptional<number>,
+  name: string,
+  icon: string,
   userId: number
 }
 
 
 export const Report = sequelize.define<ReportModel>('reports', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+  name: {type: DataTypes.STRING},
+  icon: {type: DataTypes.STRING, allowNull: true},
   userId: {
     type: DataTypes.INTEGER, references: {
       model: User,
