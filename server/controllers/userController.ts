@@ -14,7 +14,9 @@ interface UserAuthRequest extends Request {
   }
 }
 
-const generateJWT = (id: number, login: string) => jwt.sign({id, login}, process.env.SECRET_KEY || '')
+const generateJWT = (id: number, login: string) => jwt.sign({id, login}, process.env.SECRET_KEY || '', {
+  expiresIn: '365d'
+})
 
 export const registration = async (req: UserAuthRequest, res: Response, next: NextFunction) => {
   const {login, password} = req.body
