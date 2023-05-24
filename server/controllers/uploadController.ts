@@ -2,12 +2,14 @@ import {NextFunction, Request, Response} from 'express'
 import {readFile, utils} from 'xlsx'
 import moment from 'moment'
 import {Report, ReportData, User} from '../models/models'
+import {UserRequest} from '../middleware/authMiddleware'
 
 const replaceKeys = (object: Record<string, string>, old_key: string, new_key: string) => {
   delete Object.assign(object, {[new_key]: object[old_key]})[old_key]
 }
 
 export const uploadReport = async (req: Request, res: Response, next: NextFunction) => {
+  const typeReq = req as UserRequest
   try {
     const file = req.files?.report
     if (!file) {
@@ -18,20 +20,21 @@ export const uploadReport = async (req: Request, res: Response, next: NextFuncti
       })
     }
 
+
     // @ts-ignore
     file.mv('./static/' + file.name)
     // @ts-ignore
     const workbook = readFile('./static/' + file.name)
     const workSheet = workbook.Sheets[workbook.SheetNames[0]]
 
-    const user = await User.findOne({})
+    const user = await User.findOne({where: {id: typeReq.user.id}})
     if (!user) return res.status(400).json({
       status: 'failed',
       code: '400',
       message: 'User not found'
     })
 
-    const report = await Report.create({userId: 1})
+    const report = await Report.create({userId: user.id})
 
     const json = utils.sheet_to_json(workSheet)
     for (const item of json) {
@@ -54,7 +57,8 @@ export const uploadReport = async (req: Request, res: Response, next: NextFuncti
       item.reportId = report.id
     }
 
-    ReportData.bulkCreate(json as unknown as Record<string, string>[]).then(result => {
+    // @ts-ignore
+    ReportData.bulkCreate(json).then(result => {
       console.log(result.map(item => console.log(item)))
     })
 
