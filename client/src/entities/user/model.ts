@@ -3,6 +3,7 @@ import axios, {AxiosResponse} from 'axios'
 import {useQuery} from 'react-query'
 import {useSelector} from 'react-redux'
 import {deleteToken, setToken} from 'shared/lib'
+import {setUserLs} from 'shared/lib/user'
 import {ErrorResponsesType} from 'shared/types'
 
 
@@ -37,14 +38,14 @@ export const userModel = createSlice({
 export const {setUser, clearUser} = userModel.actions
 
 export const UserAuth = (login: string, password: string, dispatch: Dispatch) =>
-  useQuery<AxiosResponse<{token: string}>, ErrorResponsesType>(
+  useQuery<AxiosResponse<{token: string, userInfo: User}>, ErrorResponsesType>(
     'userAuth',
     () => axios.post('/user/login', {login, password}),
     {
       onSuccess: ({data}) => {
-        // TODO: получать информацию об юзере из запроса
-        dispatch(setUser({id: 1, login}))
         setToken(data.token)
+        setUserLs(data.userInfo)
+        dispatch(setUser(data.userInfo))
       },
       enabled: false,
       refetchOnWindowFocus: false,

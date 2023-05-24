@@ -1,88 +1,137 @@
+import {
+  Divider, ListItemIcon, ListItemText,
+  MenuItem, MenuList, Paper, Menu
+} from '@mui/material'
 import React, {useState} from 'react'
 import {NavLink} from 'react-router-dom'
 import {ReactSVG} from 'react-svg'
 import {DownloadReport} from 'features/downloadReport'
 import {Button} from 'shared/overrideMui'
 import {SidebarItem, sidebarList, RecentlyAddedItem, recentlyAddedItems} from './config'
+import exitIcon from './img/exit.svg'
 import medfolderIcon from './img/medfolder.svg'
+import medfolderBlueIcon from './img/medfolderblue.svg'
+import medfolderRedIcon from './img/medfolderred.svg'
 import revealIcon from './img/reveal.svg'
+import settingsIcon from './img/settings.svg'
 import showRecentlyButton from './img/showRecentlyButton.svg'
+import sunIcon from './img/sun.svg'
 import styles from './styles.module.scss'
 
 export const Sidebar = () => {
   const [isDownloadReportOpen, setIsDownloadReportOpen] = useState(false)
   const [isShowRecentlyAdded, setShowRecentlyAdded] = useState(true)
+  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
+  const open = Boolean(anchorEl)
+  const handleClose = () => setAnchorEl(null)
+  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
+    setAnchorEl(event.currentTarget)
+  }
 
   const createIcon = (name: String) => {
     return (<div className={styles.customIcon}>{name[0]}</div>)
   }
 
   return (
-    <div className={styles.sidebar}>
-      <div>
-        <div className={styles.header}>
-          <ReactSVG className={styles.folderIcon} src={medfolderIcon} />
-          Медпапка
-          <ReactSVG className={styles.revealIcon} src={revealIcon} />
-        </div>
+    <>
+      <div className={styles.sidebar}>
+        <div>
+          <div className={styles.header}
+            id='menu-button' onClick={handleClick}
+            aria-controls={open ? 'menu' : undefined}
+            aria-haspopup='true'
+            aria-expanded={open ? 'true' : undefined}
+          >
+            <ReactSVG className={styles.folderIcon} src={medfolderIcon} />
+            Медпапка
+            <ReactSVG className={styles.revealIcon} src={revealIcon} />
+          </div>
 
-        <div className={styles.links}>
-          {sidebarList().map(({to, label, icon, key, notice}: SidebarItem) =>
-            <NavLink
-              key={key}
-              to={to}
-              className={({isActive}) => (isActive ? `${styles.active} ` : '') + styles.link}
-            >
-              <div className={styles.title}>
-                <div className={styles.iconWrapper}>
-                  <div><ReactSVG src={icon} className={styles.icon} /></div>
-                </div>
-                <div className={styles.label}>
-                  {label}
-                </div>
-              </div>
-
-              {notice ? <div className={styles.notice}>{notice}</div> : null}
-            </NavLink>
-          )}
-
-          {/*TODO:Доработать подсвечивание активной вкладки*/}
-          <div className={styles.recentlyAdded}>
-            <div className={styles.recentlyAddedTitle} onClick={() => setShowRecentlyAdded(!isShowRecentlyAdded)}>
-              <div><ReactSVG src={showRecentlyButton} className={styles.icon} /></div>
-              Недавно добавленные
-            </div>
-            <div className={isShowRecentlyAdded ? '' : styles.hidden}>
-              {recentlyAddedItems.map(({key, name, to, icon}: RecentlyAddedItem) =>
-                <NavLink
-                  key={key}
-                  to={to}
-                  className={
-                    ({isActive}) => (isActive ? `${styles.active} ` : '') + styles.link
-                  }
-                >
-                  <div className={styles.title}>
-                    <div className={styles.iconWrapper}>
-                      { icon ? <div><ReactSVG src={icon} className={styles.icon} /></div> : createIcon(name)}
-                    </div>
-                    <div className={styles.label}>
-                      {name}
-                    </div>
+          <div className={styles.links}>
+            {sidebarList().map(({to, label, icon, key, notice}: SidebarItem) =>
+              <NavLink
+                key={key}
+                to={to}
+                className={({isActive}) => (isActive ? `${styles.active} ` : '') + styles.link}
+              >
+                <div className={styles.title}>
+                  <div className={styles.iconWrapper}>
+                    <div><ReactSVG src={icon} className={styles.icon} /></div>
                   </div>
-                </NavLink>
-              )}
+                  <div className={styles.label}>
+                    {label}
+                  </div>
+                </div>
+
+                {notice ? <div className={styles.notice}>{notice}</div> : null}
+              </NavLink>
+            )}
+
+            {/*TODO:Доработать подсвечивание активной вкладки*/}
+            <div className={styles.recentlyAdded}>
+              <div className={styles.recentlyAddedTitle} onClick={() => setShowRecentlyAdded(!isShowRecentlyAdded)}>
+                <div><ReactSVG src={showRecentlyButton} className={styles.icon} /></div>
+                Недавно добавленные
+              </div>
+              <div className={isShowRecentlyAdded ? '' : styles.hidden}>
+                {recentlyAddedItems.map(({key, name, to, icon}: RecentlyAddedItem) =>
+                  <NavLink
+                    key={key}
+                    to={to}
+                    className={
+                      ({isActive}) => (isActive ? `${styles.active} ` : '') + styles.link
+                    }
+                  >
+                    <div className={styles.title}>
+                      <div className={styles.iconWrapper}>
+                        { icon ? <div><ReactSVG src={icon} className={styles.icon} /></div> : createIcon(name)}
+                      </div>
+                      <div className={styles.label}>
+                        {name}
+                      </div>
+                    </div>
+                  </NavLink>
+                )}
+              </div>
             </div>
           </div>
         </div>
+
+        <div className={styles.bottom}>
+          <Button className={styles.button} variant='contained' onClick={() => setIsDownloadReportOpen(true)}>
+            Загрузить отчет
+          </Button>
+
+          <DownloadReport isOpen={isDownloadReportOpen} onClose={() => setIsDownloadReportOpen(false)} />
+        </div>
       </div>
 
-      <div className={styles.bottom}>
-        <Button className={styles.button} variant='contained' onClick={() => setIsDownloadReportOpen(true)}>
-          Загрузить отчет
-        </Button>
+      <Menu id='menu' anchorEl={anchorEl} open={open} MenuListProps={{
+        'aria-labelledby': 'menu-button',
+      }} onClose={handleClose}>
+        <ListItemText>Логин</ListItemText>
+        <MenuItem onClick={handleClose}>
+          <ReactSVG className={styles.menuIcon} src={medfolderRedIcon} />
+          <ListItemText>Учреждение</ListItemText>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <ReactSVG className={styles.menuIcon} src={medfolderBlueIcon} />
+          <ListItemText>Отделение</ListItemText>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <ReactSVG className={styles.menuIcon} src={settingsIcon} />
+          <ListItemText>Настройки</ListItemText>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <ReactSVG className={styles.menuIcon} src={sunIcon} />
+          <ListItemText>Темный режим</ListItemText>
+        </MenuItem>
+        <MenuItem onClick={handleClose}>
+          <ReactSVG className={styles.menuIcon} src={exitIcon} />
+          <ListItemText>Выход</ListItemText>
+        </MenuItem>
+      </Menu>
+    </>
 
-        <DownloadReport isOpen={isDownloadReportOpen} onClose={() => setIsDownloadReportOpen(false)} />
-      </div>
-    </div>
   )
 }
