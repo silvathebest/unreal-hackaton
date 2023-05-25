@@ -14,12 +14,14 @@ interface UserAuthRequest extends Request {
   }
 }
 
-const generateJWT = (id: number, login: string) => jwt.sign({id, login}, process.env.SECRET_KEY || '')
+const generateJWT = (id: number, login: string) => jwt.sign({id, login}, process.env.SECRET_KEY || '', {
+  expiresIn: '365d'
+})
 
 export const registration = async (req: UserAuthRequest, res: Response, next: NextFunction) => {
   const {login, password} = req.body
   if (!login || !password) {
-    return next(ApiError.badRequest(('Некорректрый email или password')))
+    return next(ApiError.badRequest(('Некорректный email или password')))
   }
 
   const candidate = await User.findOne({where: {login}})
@@ -37,7 +39,7 @@ export const registration = async (req: UserAuthRequest, res: Response, next: Ne
 export const login = async (req: UserAuthRequest, res: Response, next: NextFunction) => {
   const {login, password} = req.body
   if (!login || !password) {
-    return next(ApiError.badRequest(('Некорректрый email или password')))
+    return next(ApiError.badRequest(('Некорректный email или password')))
   }
 
   const user = await User.findOne({where: {login}})
