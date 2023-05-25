@@ -1,7 +1,7 @@
 import React, {lazy, Suspense, useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {Navigate, Route, Routes} from 'react-router-dom'
-import {setUser, useIsAuthenticated} from 'entities/user'
+import {setUser, useIsAuthenticated, User} from 'entities/user'
 import {getToken} from 'shared/lib'
 
 const ReportsPage = lazy(() => import('./reports'))
@@ -19,9 +19,11 @@ const Routing = () => {
 
   useEffect(() => {
     const token = getToken()
-    // TODO: Сделать получение User из LS и закидываение его в setUser
-    if (token) dispatch(setUser({id: 1, login: 'Test'}))
-
+    const user = localStorage.getItem('user')
+    if (user) {
+      const userData = JSON.parse(user) as User
+      if (token) dispatch(setUser(userData))
+    }
     setIsLoading(false)
   }, [dispatch, setIsLoading])
 

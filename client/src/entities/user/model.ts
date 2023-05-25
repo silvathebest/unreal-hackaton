@@ -2,8 +2,7 @@ import {createSelector, createSlice, Dispatch, PayloadAction} from '@reduxjs/too
 import axios, {AxiosResponse} from 'axios'
 import {useQuery} from 'react-query'
 import {useSelector} from 'react-redux'
-import {deleteToken, setToken} from 'shared/lib'
-import {setUserLs} from 'shared/lib/user'
+import {deleteToken, setToken, setUserLs} from 'shared/lib'
 import {ErrorResponsesType} from 'shared/types'
 
 
@@ -38,14 +37,14 @@ export const userModel = createSlice({
 export const {setUser, clearUser} = userModel.actions
 
 export const UserAuth = (login: string, password: string, dispatch: Dispatch) =>
-  useQuery<AxiosResponse<{token: string, userLogin: User}>, ErrorResponsesType>(
+  useQuery<AxiosResponse<{token: string, userData: User}>, ErrorResponsesType>(
     'userAuth',
     () => axios.post('/user/login', {login, password}),
     {
       onSuccess: ({data}) => {
         setToken(data.token)
-        setUserLs(data.userLogin)
-        dispatch(setUser(data.userLogin))
+        setUserLs(data.userData)
+        dispatch(setUser(data.userData))
       },
       enabled: false,
       refetchOnWindowFocus: false,
@@ -59,3 +58,5 @@ export const useIsAuthenticated = () => useSelector(
     (isAuthenticated) => isAuthenticated
   )
 )
+
+export const getLogin = () => useSelector((state: RootState) => state.user.login)

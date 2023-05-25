@@ -2,11 +2,11 @@ import {
   Divider, ListItemText,
   MenuItem
 } from '@mui/material'
-import React, {useState, useEffect} from 'react'
+import React, {useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {NavLink} from 'react-router-dom'
 import {ReactSVG} from 'react-svg'
-import {clearUser} from 'entities/user'
+import {clearUser, getLogin} from 'entities/user'
 import {DownloadReport} from 'features/downloadReport'
 import {Button} from 'shared/overrideMui'
 import {Menu} from 'shared/overrideMui/menu'
@@ -24,25 +24,12 @@ import styles from './styles.module.scss'
 export const Sidebar = () => {
   const [isDownloadReportOpen, setIsDownloadReportOpen] = useState(false)
   const [isShowRecentlyAdded, setShowRecentlyAdded] = useState(true)
-  const [anchorEl, setAnchorEl] = React.useState<null | HTMLElement>(null)
-  const open = Boolean(anchorEl)
+  const [menu, setMenu] = React.useState<null | HTMLElement>(null)
   const dispatch = useDispatch()
-  const handleClose = () => setAnchorEl(null)
-  const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
-    setAnchorEl(event.currentTarget)
-  }
-  const [login, setLogin] = useState<string>('')
+  const handleClose = () => setMenu(null)
   const logOut = () => {
     dispatch(clearUser())
   }
-
-  useEffect(() => {
-    const userLogin = localStorage.getItem('user')
-    if (userLogin) {
-      const login = JSON.parse(userLogin) as string
-      setLogin(login)
-    }
-  }, [])
 
   const createIcon = (name: String) => {
     return (<div className={styles.customIcon}>{name[0]}</div>)
@@ -53,10 +40,10 @@ export const Sidebar = () => {
       <div className={styles.sidebar}>
         <div>
           <div className={styles.header}
-            id='menu-button' onClick={handleClick}
-            aria-controls={open ? 'menu' : undefined}
+            id='menu-button' onClick={(event: React.MouseEvent<HTMLDivElement>) => setMenu(event.currentTarget)}
+            aria-controls={Boolean(menu) ? 'menu' : undefined}
             aria-haspopup='true'
-            aria-expanded={open ? 'true' : undefined}
+            aria-expanded={Boolean(menu) ? 'true' : undefined}
           >
             <ReactSVG className={styles.folderIcon} src={medfolderIcon} />
             Медпапка
@@ -122,10 +109,10 @@ export const Sidebar = () => {
         </div>
       </div>
 
-      <Menu id='menu' anchorEl={anchorEl} open={open} MenuListProps={{
+      <Menu id='menu' anchorEl={menu} open={Boolean(menu)} MenuListProps={{
         'aria-labelledby': 'menu-button',
       }} onClose={handleClose}>
-        <div className='menu-header'>{login}</div>
+        <div className='menu-header'>{getLogin()}</div>
         <Divider />
         <MenuItem onClick={handleClose}>
           <ReactSVG className='menu-icon' src={medfolderRedIcon} />
