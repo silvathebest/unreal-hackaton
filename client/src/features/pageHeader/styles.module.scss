@@ -1,0 +1,33 @@
+@import 'shared/styles/vars';
+@import 'shared/styles/typography';
+
+.root {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 52px;
+  box-sizing: border-box;
+  border-bottom: 1px solid $gray5;
+  padding: 16px 18px;
+
+  .header {
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 18px;
+    color: $gray76;
+  }
+
+  .noteIcon {
+    padding: 2px;
+    border-radius: 6px;
+    cursor: pointer;
+
+    div {
+      display: flex;
+    }
+
+    &:hover {
+      background: $gray4;
+    }
+  }
+}
