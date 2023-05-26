@@ -1,6 +1,5 @@
 import {
-  Divider, ListItemText,
-  MenuItem
+  Divider,
 } from '@mui/material'
 import React, {useState} from 'react'
 import {useDispatch} from 'react-redux'
@@ -112,31 +111,31 @@ export const Sidebar = () => {
       <Menu id='menu' anchorEl={menu} open={Boolean(menu)} MenuListProps={{
         'aria-labelledby': 'menu-button',
       }} onClose={handleClose}>
-        <div className={styles.menu}>
-          <div className={styles.menuHeader}>{getLogin()}</div>
+        <ul className={styles.menu}>
+          <li className={styles.menuHeader}>{getLogin()}</li>
           <Divider />
-          <MenuItem onClick={handleClose}>
+          <li className={styles.menuItem} onClick={handleClose}>
             <ReactSVG className={styles.menuIcon} src={medfolderRedIcon} />
             <div className={styles.menuText}>Учреждение</div>
-          </MenuItem>
-          <MenuItem onClick={handleClose}>
+          </li>
+          <li className={styles.menuItem} onClick={handleClose}>
             <ReactSVG className={styles.menuIcon} src={medfolderBlueIcon} />
             <div className={styles.menuText}>Отделение</div>
-          </MenuItem>
+          </li>
           <Divider />
-          <MenuItem onClick={handleClose}>
+          <li className={styles.menuItem} onClick={handleClose}>
             <ReactSVG className={styles.menuIcon20} src={settingsIcon} />
             <div className={styles.menuText}>Настройки</div>
-          </MenuItem>
-          <MenuItem onClick={handleClose}>
+          </li>
+          <li className={styles.menuItem} onClick={handleClose}>
             <ReactSVG className={styles.menuIcon20} src={sunIcon} />
             <div className={styles.menuText}>Темный режим</div>
-          </MenuItem>
-          <MenuItem onClick={handleClose}>
+          </li>
+          <li className={styles.menuItem} onClick={handleClose}>
             <ReactSVG className={styles.menuIcon20} src={exitIcon} />
             <div className={styles.menuText} onClick={logOut}>Выход</div>
-          </MenuItem>
-        </div>
+          </li>
+        </ul>
       </Menu>
     </>
   )
