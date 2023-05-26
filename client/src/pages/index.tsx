@@ -1,8 +1,7 @@
 import React, {lazy, Suspense, useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {Navigate, Route, Routes} from 'react-router-dom'
-import {setUser, useIsAuthenticated} from 'entities/user'
-import {getToken} from 'shared/lib'
+import {getUserLs, setUser, useIsAuthenticated} from 'entities/user'
 
 const ReportsPage = lazy(() => import('./reports'))
 const TasksPage = lazy(() => import('./tasks'))
@@ -18,9 +17,8 @@ const Routing = () => {
   const isAuthenticated = useIsAuthenticated()
 
   useEffect(() => {
-    const token = getToken()
-    // TODO: Сделать получение User из LS и закидываение его в setUser
-    if (token) dispatch(setUser({id: 1, login: 'Test'}))
+    const user = getUserLs()
+    if (user) dispatch(setUser(user))
 
     setIsLoading(false)
   }, [dispatch, setIsLoading])

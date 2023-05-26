@@ -1,0 +1,17 @@
+@import 'shared/styles/vars.scss';
+@import 'shared/styles/typography.scss';
+
+.override-mui-menu {
+
+  .MuiPaper-root {
+
+    .MuiList-root {
+      padding: 0;
+    }
+
+    .MuiDivider-root {
+      margin: 3px 3px;
+    }
+  }
+
+}
