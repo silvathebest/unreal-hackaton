@@ -3,46 +3,19 @@
 
 .override-mui-menu {
 
-  .MuiPaper-root {
-    width: 221px;
-    height: 235px;
+  .menu {
+    width: 220px;
+  }
 
-    .menu-header {
-      color: $gray50;
-      padding: 16px 18px;
-      height: 17px;
+  .MuiPaper-root {
+
+    .MuiList-root {
+      padding: 0;
     }
 
     .MuiDivider-root {
       margin: 3px 3px;
     }
-  }
-
-  .MuiList-root {
-    padding: 0;
-  }
-
-  .MuiListItemText-root {
-    height: 24px;
-  }
-
-  .MuiButtonBase-root {
-    height: 34px;
-  }
-
-  .menu-icon {
-    display: flex;
-    height: 24px;
-  }
-
-  .menu-icon-20 {
-    display: flex;
-    height: 20px;
-  }
-
-  .MuiTypography-root {
-    padding-left: 12px;
-    color: $gray76;
   }
 
 }

@@ -112,29 +112,31 @@ export const Sidebar = () => {
       <Menu id='menu' anchorEl={menu} open={Boolean(menu)} MenuListProps={{
         'aria-labelledby': 'menu-button',
       }} onClose={handleClose}>
-        <div className='menu-header'>{getLogin()}</div>
-        <Divider />
-        <MenuItem onClick={handleClose}>
-          <ReactSVG className='menu-icon' src={medfolderRedIcon} />
-          <ListItemText>Учреждение</ListItemText>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ReactSVG className='menu-icon' src={medfolderBlueIcon} />
-          <ListItemText>Отделение</ListItemText>
-        </MenuItem>
-        <Divider />
-        <MenuItem onClick={handleClose}>
-          <ReactSVG className='menu-icon-20' src={settingsIcon} />
-          <ListItemText>Настройки</ListItemText>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ReactSVG className='menu-icon-20' src={sunIcon} />
-          <ListItemText>Темный режим</ListItemText>
-        </MenuItem>
-        <MenuItem onClick={handleClose}>
-          <ReactSVG className='menu-icon-20' src={exitIcon} />
-          <ListItemText onClick={logOut}>Выход</ListItemText>
-        </MenuItem>
+        <div className={styles.menu}>
+          <div className={styles.menuHeader}>{getLogin()}</div>
+          <Divider />
+          <MenuItem onClick={handleClose}>
+            <ReactSVG className={styles.menuIcon} src={medfolderRedIcon} />
+            <div className={styles.menuText}>Учреждение</div>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <ReactSVG className={styles.menuIcon} src={medfolderBlueIcon} />
+            <div className={styles.menuText}>Отделение</div>
+          </MenuItem>
+          <Divider />
+          <MenuItem onClick={handleClose}>
+            <ReactSVG className={styles.menuIcon20} src={settingsIcon} />
+            <div className={styles.menuText}>Настройки</div>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <ReactSVG className={styles.menuIcon20} src={sunIcon} />
+            <div className={styles.menuText}>Темный режим</div>
+          </MenuItem>
+          <MenuItem onClick={handleClose}>
+            <ReactSVG className={styles.menuIcon20} src={exitIcon} />
+            <div className={styles.menuText} onClick={logOut}>Выход</div>
+          </MenuItem>
+        </div>
       </Menu>
     </>
   )
