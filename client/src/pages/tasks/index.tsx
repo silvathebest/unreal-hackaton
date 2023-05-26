@@ -1,4 +1,5 @@
 import React from 'react'
+import {PageHeader} from 'features'
 import {Sidebar} from 'widgets'
 import styles from './styles.module.scss'
 
@@ -6,7 +7,9 @@ const Tasks = () => {
   return (
     <div className={styles.root}>
       <Sidebar />
-      Задачи
+      <div className={styles.workArea}>
+        <PageHeader>Задачи</PageHeader>
+      </div>
     </div>
   )
 }
