@@ -11,12 +11,14 @@
 
   .header {
     display: flex;
-    padding: 10px 18px;
+    padding: 0 18px;
+    height: 52px;
     font-size: 25px;
     line-height: 25px;
     font-weight: bold;
     align-items: center;
     border-bottom: 1px solid $gray5;
+    box-sizing: border-box;
     cursor: pointer;
 
     .folderIcon {

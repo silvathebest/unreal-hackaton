@@ -1,4 +1,4 @@
-import {NextFunction, Request, Response} from 'express'
+import {Request, Response} from 'express'
 import {readFile, utils} from 'xlsx'
 import moment from 'moment'
 import {Report, ReportData, User} from '../models/models'
@@ -8,7 +8,7 @@ const replaceKeys = (object: Record<string, string>, old_key: string, new_key: s
   delete Object.assign(object, {[new_key]: object[old_key]})[old_key]
 }
 
-export const uploadReport = async (req: Request, res: Response, next: NextFunction) => {
+export const uploadReport = async (req: Request, res: Response) => {
   const typeReq = req as UserRequest
   try {
     const file = req.files?.report
@@ -33,9 +33,16 @@ export const uploadReport = async (req: Request, res: Response, next: NextFuncti
       message: 'User not found'
     })
 
-    const report = await Report.create({userId: user.id, name: req.body.name, icon: req.body.icon || ''})
-
     const json = utils.sheet_to_json(workSheet)
+
+    const report = await Report.create({
+      userId: user.id,
+      name: req.body.name,
+      icon: req.body.icon || '',
+      status: 1,
+      count: json.length
+    })
+
     for (const item of json) {
       const typedItem = item as Record<string, string>
       replaceKeys(typedItem, 'Пол пациента', 'gender')

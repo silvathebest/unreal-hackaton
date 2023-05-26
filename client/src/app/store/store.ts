@@ -1,9 +1,11 @@
 import {configureStore} from '@reduxjs/toolkit'
+import {reportModel} from 'entities/report'
 import {userModel} from 'entities/user'
 
 export const store = configureStore({
   reducer: {
     user: userModel.reducer,
+    report: reportModel.reducer,
   },
 })
 

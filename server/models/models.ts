@@ -15,10 +15,12 @@ export const User = sequelize.define<UserModel>('users', {
 })
 
 interface ReportModel extends Model<InferAttributes<ReportModel>, InferCreationAttributes<ReportModel>> {
-  id: CreationOptional<number>,
-  name: string,
-  icon: string,
+  id: CreationOptional<number>
+  name: string
+  icon: string
   userId: number
+  status: number
+  count: number
 }
 
 
@@ -26,6 +28,8 @@ export const Report = sequelize.define<ReportModel>('reports', {
   id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
   name: {type: DataTypes.STRING},
   icon: {type: DataTypes.STRING, allowNull: true},
+  status: {type: DataTypes.INTEGER, defaultValue: 1},
+  count: {type: DataTypes.INTEGER, defaultValue: 0},
   userId: {
     type: DataTypes.INTEGER, references: {
       model: User,
