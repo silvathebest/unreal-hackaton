@@ -1,0 +1,15 @@
+@import 'shared/styles/vars';
+
+.root {
+  display: flex;
+  height: 100vh;
+
+  .workArea {
+    display: flex;
+  }
+}
+
+.test {
+  width: 146px;
+  height: 146px;
+}
