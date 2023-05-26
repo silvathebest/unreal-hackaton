@@ -19,6 +19,7 @@
     align-items: center;
     border-bottom: 1px solid $gray5;
     box-sizing: border-box;
+    cursor: pointer;
 
     .folderIcon {
       width: 32px;
@@ -91,6 +92,10 @@
       }
     }
 
+    .link:hover {
+      background: $gray4;
+    }
+
     .recentlyAdded {
       margin-top: 18px;
 
@@ -118,5 +123,40 @@
   .button {
     width: 100%;
     margin: 18px;
+  }
+}
+
+.menu {
+  width: 220px;
+
+  .menuHeader {
+    color: $gray50;
+    padding: 12px 18px;
+    height: 17px;
+  }
+
+  .menuIcon {
+    display: flex;
+    height: 24px;
+  }
+
+  .menuIcon20 {
+    display: flex;
+    height: 20px;
+  }
+
+  .menuText {
+    margin-left: 12px;
+    font-size: 14px;
+    line-height: 18px;
+    width: 100%;
+  }
+
+  .menuItem {
+    display: flex;
+    height: 24px;
+    padding: 5px 18px;
+    cursor: pointer;
+    align-items: center;
   }
 }
