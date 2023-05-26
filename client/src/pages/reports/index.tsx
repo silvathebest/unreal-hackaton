@@ -84,10 +84,14 @@ const ReportStatus: Record<ReportStatusKey, ReportStatusType> = {
 const Card: FC<CardProps> = ({title, count, status, date}) => {
   return (
     <div className={styles.card}>
-      <div className={styles.header}>{title}</div>
+      <div className={styles.title}>{title}</div>
       <div className={styles.wrapper}>
-        <div>{count} записей</div>
-        <div>{getValueFromObject(ReportStatus, status).title}</div>
+        <div className={styles.count}>
+          {count} записей
+        </div>
+        <div className={styles.status}>
+          {getValueFromObject(ReportStatus, status).title}
+        </div>
       </div>
       <div className={styles.date}>
         {date}
