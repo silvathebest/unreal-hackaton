@@ -24,8 +24,6 @@ const ReportDetail = () => {
       <Sidebar />
 
       <div className={styles.workArea}>
-        детальный отчёт
-
         <div className={styles.test}>
           <DonutPie data={data} />
         </div>

@@ -1,3 +1,4 @@
+import moment from 'moment'
 import React, {FC, useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {ReactSVG} from 'react-svg'
@@ -58,7 +59,7 @@ const Reports = () => {
               </div>
             </div>
 
-            <Button className={styles.button2} variant='contained' onClick={() => setIsDownloadReportOpen(true)}>
+            <Button variant='contained' onClick={() => setIsDownloadReportOpen(true)}>
               Загрузить отчет
             </Button>
 
@@ -115,7 +116,7 @@ const Card: FC<CardProps> = ({report}) => {
         </div>
       </div>
       <div className={styles.date}>
-        {report.createdAt}
+        {moment(report.createdAt).format('DD.MM.YYYY')}
       </div>
     </div>
   )
