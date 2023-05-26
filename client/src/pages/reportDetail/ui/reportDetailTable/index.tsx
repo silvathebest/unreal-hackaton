@@ -1,6 +1,14 @@
 import {Table, TableBody, TableCell, TableHead, TableRow} from '@mui/material'
+import moment from 'moment/moment'
 import React from 'react'
+import {ReactSVG} from 'react-svg'
 import {TableContainer} from 'shared/overrideMui'
+import clientDateBirthIcon from './icon/clientDateBirth.svg'
+import clientIdIcon from './icon/clientId.svg'
+import diagnosisIcon from './icon/diagnosis.svg'
+import genderIcon from './icon/gender.svg'
+import idMKBIcon from './icon/idMKB.svg'
+import positionIcon from './icon/position.svg'
 import styles from './styles.module.scss'
 
 const list = [
@@ -46,8 +54,19 @@ export const ReportDetailTable = () => {
       <Table>
         <TableHead>
           <TableRow>
-            <TableCell>Пол&nbsp;пациента</TableCell>
-            <TableCell>Д.Р.&nbsp;пациента</TableCell>
+            <TableCell>
+              <div className={styles.headerColumnContainer}>
+                <ReactSVG src={genderIcon} className={styles.icon} />&nbsp;
+                Пол&nbsp;пациента
+              </div>
+            </TableCell>
+            <TableCell>
+              <div className={styles.headerColumnContainer}>
+                <ReactSVG src={clientDateBirthIcon} className={styles.icon} />&nbsp;
+                Д.Р.&nbsp;пациента
+              </div>
+
+            </TableCell>
             <TableCell>ИД&nbsp;пациента</TableCell>
             <TableCell>Код&nbsp;МКБ-10</TableCell>
             <TableCell>Должность</TableCell>
@@ -61,24 +80,26 @@ export const ReportDetailTable = () => {
           {list.map((item) => (
             <TableRow key={item.id} className={styles.row}>
               <TableCell>
-                1
+                {item.gender}
               </TableCell>
               <TableCell>
-                2
+                {moment(item.clientDateBirth).format('DD.MM.YYYY')}
               </TableCell>
               <TableCell>
-                3
+                {item.clientId}
               </TableCell>
               <TableCell>
-                <div className={styles.position}>
-                  4
+                <div className={styles.idMKB}>
+                  {item.idMKB}
                 </div>
               </TableCell>
               <TableCell>
-                5
+                <div className={styles.position}>
+                  {item.position}
+                </div>
               </TableCell>
               <TableCell>
-                6
+                {moment(item.serviceDate).format('DD.MM.YYYY') + ' в ' + moment(item.serviceDate).format('hh.mm')}
               </TableCell>
               <TableCell>
                 7

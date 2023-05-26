@@ -6,7 +6,6 @@
   &.MuiTableContainer-root {
     background: $white;
     border-radius: 12px;
-    border: 1px solid $gray5;
     box-sizing: border-box;
   }
 
@@ -14,6 +13,7 @@
     color: $gray76;
     font: $fontMediumS;
     line-height: $lineHeightS;
+    border: 1px solid;
   }
 
   .MuiTable-root {
@@ -28,7 +28,7 @@
     }
 
     &:last-child .MuiTableCell-body {
-      border: unset;
+      border-bottom: unset;
     }
   }
 
@@ -45,12 +45,14 @@
   }
 
   .MuiTableCell-root {
-    border-color: $gray5;
+    border: 1px solid $gray5;
+    border-top: 0;
+    border-right: 0;
     letter-spacing: unset;
     white-space: nowrap;
     overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 150px;
+    // text-overflow: ellipsis;
+    max-width: 190px;
   }
 
   .MuiTableBody-root .MuiTableRow-root {

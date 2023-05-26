@@ -1,0 +1,26 @@
+@import "shared/styles/vars";
+@import "shared/styles/typography";
+
+.position {
+  display: inline-block;
+  padding: 7px 8px;
+  border: 1px solid $gray5;
+  border-radius: 100px;
+  max-width: 178px;
+  // text-overflow: ellipsis;
+}
+
+.idMKB {
+  text-decoration: underline;
+}
+
+.headerColumnContainer {
+  display: flex;
+  align-items: center;
+  .icon {
+    div {
+      display: flex;
+    }
+  }
+}
+
