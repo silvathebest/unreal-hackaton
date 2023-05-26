@@ -14,6 +14,7 @@ export type ReportDetail = {
   position: string
   standard: number
   appointments: string
+  serviceDate: string
 }
 
 type InitialStateProps = {
@@ -39,14 +40,18 @@ export const reportDetailModel = createSlice({
 
 export const {} = reportDetailModel.actions
 
+export const limitReportDetail = 10
+
 export const GetReportDetail = ({filter, page, reportId}: {filter: string, page: number, reportId: number}, dispatch: Dispatch) =>
   useQuery<AxiosResponse<{data: ReportDetail[], count: number}>, ErrorResponsesType>(
     'GetReportDetail',
-    () => axios.get('/reportDetail', {params: {filter: filter || null, page, reportId}}),
+    () => axios.get('/reportDetail', {params: {filter: filter || null, page, limit: limitReportDetail, reportId}}),
     {
       onSuccess: ({data}) => {
-        console.log(data)
-        dispatch(reportDetailModel.actions.addReportDetails(data))
+        dispatch(reportDetailModel.actions.addReportDetails({
+          data: data.data.map((item) => ({...item, standard: Math.floor(Math.random() * 3 + 1)})),
+          count: data.count
+        }))
       },
       enabled: false,
       refetchOnWindowFocus: false,
@@ -61,9 +66,11 @@ export const useGetReportDetailsData = () => useSelector(
   )
 )
 
-export const useGetReportDetailsCount = () => useSelector(
+export const useGetReportDetailsCountPage = () => useSelector(
   createSelector(
     (state: RootState) => state.reportDetail.count,
-    (count) => count
+    (count) => {
+      return Math.ceil(count / limitReportDetail)
+    }
   )
 )
