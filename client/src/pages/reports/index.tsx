@@ -1,7 +1,11 @@
-import React, {FC} from 'react'
+import React, {FC, useEffect, useState} from 'react'
+import {useDispatch} from 'react-redux'
 import {ReactSVG} from 'react-svg'
-import {PageHeader} from 'features'
+import {Report, ReportGetAll, useGetAllReports} from 'entities/report'
+import {DownloadReport, PageHeader} from 'features'
+import {useDebounce} from 'shared/hooks'
 import {getValueFromObject} from 'shared/lib'
+import {Button} from 'shared/overrideMui'
 import {Sidebar} from 'widgets'
 import countIcon from './icon/count.svg'
 import filtersIcon from './icon/filters.svg'
@@ -11,6 +15,19 @@ import statusIcon from './icon/status.svg'
 import styles from './styles.module.scss'
 
 const Reports = () => {
+  const dispatch = useDispatch()
+  const [inputValue, setInputValue] = useState('')
+  const filter = useDebounce(inputValue)
+
+  const {refetch} = ReportGetAll(filter, dispatch)
+  const reports = useGetAllReports()
+
+  const [isDownloadReportOpen, setIsDownloadReportOpen] = useState(false)
+
+  useEffect(() => {
+    refetch()
+  }, [refetch, filter])
+
   return (
     <div className={styles.root}>
       <Sidebar />
@@ -20,33 +37,36 @@ const Reports = () => {
 
         <div className={styles.workArea}>
           <div className={styles.filters}>
-            <div className={styles.search}>
-              <ReactSVG src={searchIcon} className={styles.icon} />
-              <input type='text' className={styles.searchInput} placeholder='Поиск' />
+            <div className={styles.filtersLeft}>
+              <div className={styles.search}>
+                <ReactSVG src={searchIcon} className={styles.icon} />
+                <input
+                  type='text'
+                  className={styles.searchInput}
+                  placeholder='Поиск'
+                  value={inputValue}
+                  onChange={(event) => setInputValue(event.target.value)}
+                />
+              </div>
+
+              <div className={styles.button}>
+                <ReactSVG src={filtersIcon} className={styles.icon} /> Фильтры
+              </div>
+
+              <div className={styles.button}>
+                <ReactSVG src={ordersIcon} className={styles.icon} />Сортировка
+              </div>
             </div>
 
-            <div className={styles.button}>
-              <ReactSVG src={filtersIcon} className={styles.icon} /> Фильтры
-            </div>
+            <Button className={styles.button2} variant='contained' onClick={() => setIsDownloadReportOpen(true)}>
+              Загрузить отчет
+            </Button>
 
-            <div className={styles.button}>
-              <ReactSVG src={ordersIcon} className={styles.icon} />Сортировка
-            </div>
+            <DownloadReport isOpen={isDownloadReportOpen} onClose={() => setIsDownloadReportOpen(false)} />
           </div>
 
           <div className={styles.cardWrapper}>
-            <Card title='Test1' count={123} status={1} date='12.04.2022' />
-            <Card title='Test2' count={123} status={2} date='11.04.2022' />
-            <Card title='Test3' count={123} status={3} date='13.04.2022' />
-            <Card title='Test4' count={123} status={1} date='14.04.2022' />
-            <Card title='Test65' count={123} status={2} date='15.04.2022' />
-            <Card title='Test7' count={123} status={3} date='12.04.2022' />
-            <Card title='Test1' count={123} status={1} date='12.04.2022' />
-            <Card title='Testqqwe' count={123} status={2} date='12.04.2022' />
-            <Card title='Testasd' count={123} status={3} date='12.04.2022' />
-            <Card title='Testqqq' count={123} status={1} date='12.04.2022' />
-            <Card title='Test123' count={123} status={2} date='12.04.2022' />
-            <Card title='Testee' count={123} status={3} date='12.04.2022' />
+            {reports.map((report) => <Card report={report} key={report.id} />)}
           </div>
         </div>
       </div>
@@ -55,10 +75,7 @@ const Reports = () => {
 }
 
 type CardProps = {
-  title: string
-  count: number
-  status: number
-  date: string
+  report: Report
 }
 
 type ReportStatusKey = 'ready' | 'print' | 'check'
@@ -83,22 +100,22 @@ const ReportStatus: Record<ReportStatusKey, ReportStatusType> = {
   }
 }
 
-const Card: FC<CardProps> = ({title, count, status, date}) => {
+const Card: FC<CardProps> = ({report}) => {
   return (
     <div className={styles.card}>
-      <div className={styles.title}>{title}</div>
+      <div className={styles.title}>{report.name}</div>
       <div className={styles.wrapper}>
         <div className={styles.count}>
           <ReactSVG src={countIcon} className={styles.icon} />
-          {count} записей
+          {report.count} записей
         </div>
         <div className={styles.status}>
           <ReactSVG src={statusIcon} className={styles.icon} />
-          <div className={styles[`status${status}`]}>{getValueFromObject(ReportStatus, status).title}</div>
+          <div className={styles[`status${report.status || 1}`]}>{getValueFromObject(ReportStatus, report.status || 1).title}</div>
         </div>
       </div>
       <div className={styles.date}>
-        {date}
+        {report.createdAt}
       </div>
     </div>
   )

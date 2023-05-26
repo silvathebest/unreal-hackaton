@@ -16,7 +16,7 @@ export const getToken = (): string | null => {
   if (!token) return null
 
   try {
-    return JSON.parse(token)
+    return JSON.parse(token).token
   } catch {
     deleteToken()
   }
