@@ -1,6 +1,4 @@
-import {
-  Divider,
-} from '@mui/material'
+import {Divider} from '@mui/material'
 import React, {useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {NavLink} from 'react-router-dom'
@@ -23,7 +21,7 @@ import styles from './styles.module.scss'
 export const Sidebar = () => {
   const [isDownloadReportOpen, setIsDownloadReportOpen] = useState(false)
   const [isShowRecentlyAdded, setShowRecentlyAdded] = useState(true)
-  const [menu, setMenu] = React.useState<null | HTMLElement>(null)
+  const [menu, setMenu] = useState<null | HTMLElement>(null)
   const dispatch = useDispatch()
   const handleClose = () => setMenu(null)
   const logOut = () => {
