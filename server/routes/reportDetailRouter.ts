@@ -10,8 +10,8 @@ const router = Router()
  * tags:
  *  name: ReportDetail
  *  description: The report detail managing API
- * /api/reportDetail/report:
- *   post:
+ * /api/reportDetail:
+ *   get:
  *     tags: [ReportDetail]
  *     description: Get report detail
  *     parameters:
