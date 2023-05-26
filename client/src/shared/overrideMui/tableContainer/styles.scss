@@ -1,0 +1,59 @@
+@import 'shared/styles/vars.scss';
+@import 'shared/styles/typography.scss';
+
+.override-table-container {
+
+  &.MuiTableContainer-root {
+    background: $white;
+    border-radius: 12px;
+    border: 1px solid $gray5;
+    box-sizing: border-box;
+  }
+
+  .MuiTableCell-body {
+    color: $gray76;
+    font: $fontMediumS;
+    line-height: $lineHeightS;
+  }
+
+  .MuiTable-root {
+    inset: 0;
+    overflow: auto;
+  }
+
+  .MuiTableRow-root {
+
+    &:hover {
+      background: $gray5;
+    }
+
+    &:last-child .MuiTableCell-body {
+      border: unset;
+    }
+  }
+
+  .MuiTableCell-head {
+    color: $gray76;
+    font: $fontMediumS;
+    line-height: $lineHeightS;
+    padding: 16px 16px 15px;
+  }
+
+  .MuiTableCell-head.MuiTableCell-paddingCheckbox {
+    padding: 0 0 0 4px;
+    height: 53px;
+  }
+
+  .MuiTableCell-root {
+    border-color: $gray5;
+    letter-spacing: unset;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px;
+  }
+
+  .MuiTableBody-root .MuiTableRow-root {
+    height: 62px;
+  }
+}

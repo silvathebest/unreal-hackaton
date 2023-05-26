@@ -2,6 +2,7 @@ import React from 'react'
 import {DonutPie} from 'features'
 import {Sidebar} from 'widgets'
 import styles from './styles.module.scss'
+import {ReportDetailTable} from './ui/reportDetailTable'
 
 const data = [
   {
@@ -27,6 +28,7 @@ const ReportDetail = () => {
         <div className={styles.test}>
           <DonutPie data={data} />
         </div>
+        <ReportDetailTable />
       </div>
     </div>
   )
