@@ -3,9 +3,11 @@ import {ReactSVG} from 'react-svg'
 import {PageHeader} from 'features'
 import {getValueFromObject} from 'shared/lib'
 import {Sidebar} from 'widgets'
+import countIcon from './icon/count.svg'
 import filtersIcon from './icon/filters.svg'
 import ordersIcon from './icon/orders.svg'
 import searchIcon from './icon/search.svg'
+import statusIcon from './icon/status.svg'
 import styles from './styles.module.scss'
 
 const Reports = () => {
@@ -35,16 +37,16 @@ const Reports = () => {
           <div className={styles.cardWrapper}>
             <Card title='Test1' count={123} status={1} date='12.04.2022' />
             <Card title='Test2' count={123} status={2} date='11.04.2022' />
-            <Card title='Test3' count={123} status={0} date='13.04.2022' />
+            <Card title='Test3' count={123} status={3} date='13.04.2022' />
             <Card title='Test4' count={123} status={1} date='14.04.2022' />
             <Card title='Test65' count={123} status={2} date='15.04.2022' />
-            <Card title='Test7' count={123} status={0} date='12.04.2022' />
+            <Card title='Test7' count={123} status={3} date='12.04.2022' />
             <Card title='Test1' count={123} status={1} date='12.04.2022' />
             <Card title='Testqqwe' count={123} status={2} date='12.04.2022' />
-            <Card title='Testasd' count={123} status={0} date='12.04.2022' />
+            <Card title='Testasd' count={123} status={3} date='12.04.2022' />
             <Card title='Testqqq' count={123} status={1} date='12.04.2022' />
             <Card title='Test123' count={123} status={2} date='12.04.2022' />
-            <Card title='Testee' count={123} status={0} date='12.04.2022' />
+            <Card title='Testee' count={123} status={3} date='12.04.2022' />
           </div>
         </div>
       </div>
@@ -68,15 +70,15 @@ export type ReportStatusType = {
 
 const ReportStatus: Record<ReportStatusKey, ReportStatusType> = {
   check: {
-    id: 0,
-    title: 'Проверить'
-  },
-  ready: {
     id: 1,
     title: 'Готов'
   },
-  print: {
+  ready: {
     id: 2,
+    title: 'Проверить'
+  },
+  print: {
+    id: 3,
     title: 'Печать'
   }
 }
@@ -87,10 +89,12 @@ const Card: FC<CardProps> = ({title, count, status, date}) => {
       <div className={styles.title}>{title}</div>
       <div className={styles.wrapper}>
         <div className={styles.count}>
+          <ReactSVG src={countIcon} className={styles.icon} />
           {count} записей
         </div>
         <div className={styles.status}>
-          {getValueFromObject(ReportStatus, status).title}
+          <ReactSVG src={statusIcon} className={styles.icon} />
+          <div className={styles[`status${status}`]}>{getValueFromObject(ReportStatus, status).title}</div>
         </div>
       </div>
       <div className={styles.date}>

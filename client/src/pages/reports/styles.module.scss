@@ -62,6 +62,7 @@
           box-sizing: border-box;
           box-shadow: $shadow2;
           cursor: pointer;
+          color: $gray76;
 
           &:hover {
             background: $gray2;
@@ -89,9 +90,72 @@
             display: flex;
             align-items: center;
             padding: 0 12px;
+            color: $gray76;
+            text-decoration-line: underline;
+            font-weight: 500;
+            font-size: 16px;
+            line-height: 16px;
           }
 
+          .wrapper {
+            margin-top: 12px;
+            padding: 0 18px;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
 
+            .icon {
+              div {
+                display: flex;
+              }
+            }
+
+            .count {
+              height: 34px;
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              color: $gray76;
+              font: $fontMediumS;
+              line-height: 18px;
+            }
+
+            .status {
+              height: 34px;
+              display: flex;
+              align-items: center;
+              gap: 10px;
+              color: $gray76;
+              font: $fontMediumS;
+              line-height: 18px;
+
+              .status1 {
+                background: #E0FFEE;
+                border-radius: 26px;
+                padding: 4px 9px;
+              }
+
+              .status2 {
+                background: #FFFAE0;
+                border-radius: 26px;
+                padding: 4px 9px;
+              }
+
+              .status3 {
+                background: #E0F6FF;
+                border-radius: 36px;
+                padding: 4px 9px;
+              }
+            }
+          }
+
+          .date {
+            padding: 12px 18px;
+            color: $gray50;
+            font-weight: 400;
+            font-size: 12px;
+            line-height: 18px;
+          }
         }
       }
     }
