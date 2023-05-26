@@ -1,8 +1,7 @@
 import React, {lazy, Suspense, useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {Navigate, Route, Routes} from 'react-router-dom'
-import {setUser, useIsAuthenticated, User} from 'entities/user'
-import {getToken} from 'shared/lib'
+import {getUserLs, setUser, useIsAuthenticated} from 'entities/user'
 
 const ReportsPage = lazy(() => import('./reports'))
 const TasksPage = lazy(() => import('./tasks'))
@@ -18,12 +17,9 @@ const Routing = () => {
   const isAuthenticated = useIsAuthenticated()
 
   useEffect(() => {
-    const token = getToken()
-    const user = localStorage.getItem('user')
-    if (user) {
-      const userData = JSON.parse(user) as User
-      if (token) dispatch(setUser(userData))
-    }
+    const user = getUserLs()
+    if (user) dispatch(setUser(user))
+
     setIsLoading(false)
   }, [dispatch, setIsLoading])
 

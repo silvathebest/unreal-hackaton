@@ -2,9 +2,9 @@ import {createSelector, createSlice, Dispatch, PayloadAction} from '@reduxjs/too
 import axios, {AxiosResponse} from 'axios'
 import {useQuery} from 'react-query'
 import {useSelector} from 'react-redux'
-import {deleteToken, setToken, setUserLs} from 'shared/lib'
+import {deleteToken, setToken} from 'shared/lib'
 import {ErrorResponsesType} from 'shared/types'
-
+import {deleteUser, setUserLs} from './user'
 
 export type User = {
   id: number
@@ -29,6 +29,7 @@ export const userModel = createSlice({
       ({...state, ...payload, isAuthenticated: true}),
     clearUser: () => {
       deleteToken()
+      deleteUser()
       return initialState
     }
   }
