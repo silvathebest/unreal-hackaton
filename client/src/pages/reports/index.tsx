@@ -1,6 +1,7 @@
 import moment from 'moment'
 import React, {FC, useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
+import {useNavigate} from 'react-router'
 import {ReactSVG} from 'react-svg'
 import {Report, ReportGetAll, useGetAllReports} from 'entities/report'
 import {DownloadReport, PageHeader} from 'features'
@@ -102,8 +103,10 @@ const ReportStatus: Record<ReportStatusKey, ReportStatusType> = {
 }
 
 const Card: FC<CardProps> = ({report}) => {
+  const navigate = useNavigate()
+
   return (
-    <div className={styles.card}>
+    <div className={styles.card} onClick={() => navigate(`/reports/${report.id}`)}>
       <div className={styles.title}>{report.name}</div>
       <div className={styles.wrapper}>
         <div className={styles.count}>
