@@ -1,6 +1,6 @@
 import {Table, TableBody, TableCell, TableHead, TableRow} from '@mui/material'
 import moment from 'moment/moment'
-import React, {useEffect, useState} from 'react'
+import React, {useCallback, useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {useParams} from 'react-router'
 import {ReactSVG} from 'react-svg'
@@ -52,22 +52,38 @@ export const ReportDetailTable = () => {
   }, [page])
 
   useEffect(() => setCurrentPagesList(initRenderList(page)), [reportDetailsCountPage])
+
   const renderPaginate = (currentPagesList:number[]) => {
     return(
       <div className={styles.paginate}>
-        <div className={(page === 1 ? styles.disabled + ' ' : '') + styles.pageCell + ' ' + styles.previousPageButton} onClick={() => setPage(page - 1)}>
+        <div
+          className={`${(page === 1 ? `${styles.disabled}` : '')} ${styles.pageCell} ${styles.previousPageButton}`}
+          onClick={() => setPage(page - 1)}>
           <ReactSVG src={arrowIcon} className={styles.icon} />
         </div>
 
-        {currentPagesList.map((number) => (<div className={(number === page ? `${styles.active} ` : '') + styles.pageCell}
-          key={number} onClick={() => setPage(number)}>{number}</div>))}
+        {currentPagesList.map((number) => (
+          <div
+            className={`${(number === page ? `${styles.active}` : '')} ${styles.pageCell}`}
+            key={number}
+            onClick={() => setPage(number)}>{number}
+          </div>
+        )
+        )}
 
-        <div className={(page === reportDetailsCountPage ? styles.disabled + ' ' : '') + styles.pageCell } onClick={() => setPage(page + 1)}>
+        <div
+          className={`${(page === reportDetailsCountPage ? `${styles.disabled}` : '')} ${styles.pageCell}`}
+          onClick={() => setPage(page + 1)}>
           <ReactSVG src={arrowIcon} className={styles.icon} />
         </div>
       </div>
     )
   }
+
+  const onChangeHandler = useCallback((event:React.ChangeEvent<HTMLInputElement>) => {
+    setInputValue(event.target.value)
+    setPage(1)
+  }, [])
 
   return (
     <div className={styles.tableWrapper}>
@@ -80,10 +96,7 @@ export const ReportDetailTable = () => {
               className={styles.searchInput}
               placeholder='Поиск'
               value={inputValue}
-              onChange={(event) => {
-                setInputValue(event.target.value)
-                setPage(1)
-              }}
+              onChange={onChangeHandler}
             />
           </div>
 

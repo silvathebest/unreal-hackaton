@@ -26,12 +26,25 @@ const ReportDetail = () => {
       <Sidebar />
 
       <div className={styles.workArea}>
-        <div className={styles.test2}>
-          <DemoProgress />
-        </div>
-
         <div className={styles.test}>
           <DonutPie data={data} />
+        </div>
+        <div className={styles.test2}>
+          <div>
+            <div>Соответствует</div>
+            <DemoProgress />
+            <div>%12</div>
+          </div>
+          <div>
+            <div>Доп. назначения</div>
+            <DemoProgress />
+            <div>%12</div>
+          </div>
+          <div>
+            <div>Частично</div>
+            <DemoProgress />
+            <div>%12</div>
+          </div>
         </div>
         <ReportDetailTable />
       </div>
@@ -41,8 +54,9 @@ const ReportDetail = () => {
 
 const DemoProgress = () => {
   const config = {
-    autoFit: true,
-    padding: -10,
+    autoFit: false,
+    // padding: -10,
+    height: 10,
     percent: 0.7,
     appendPadding: 0,
     color: ['#5B8FF9', '#E8EDF3'],
