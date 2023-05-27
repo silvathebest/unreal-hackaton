@@ -1,0 +1,164 @@
+@import "shared/styles/vars";
+@import "shared/styles/typography";
+
+.position {
+  display: inline-block;
+  padding: 7px 8px;
+  border: 1px solid $gray5;
+  border-radius: 100px;
+  max-width: 178px;
+}
+
+.idMKB {
+  text-decoration: underline;
+}
+
+.headerColumnContainer {
+  display: flex;
+  align-items: center;
+  .icon {
+    div {
+      display: flex;
+    }
+  }
+}
+
+.standardOne {
+  width: 120px;
+  border: 1px solid $gray5;
+  border-radius: 100px;
+  padding: 7px 8px;
+  background: $primary10;
+  color: $primary
+}
+
+.standardTwo {
+  width: 120px;
+  border: 1px solid $gray5;
+  border-radius: 100px;
+  padding: 7px 8px;
+  background: rgba(255, 124, 124, 0.15);
+  color: #FF7C7C;
+}
+
+.standardThree {
+  width: 120px;
+  border: 1px solid $gray5;
+  border-radius: 100px;
+  padding: 7px 8px;
+  background: rgba(255, 192, 98, 0.1);
+  color: #FF8A00;
+}
+
+.textEllipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.paginate {
+  display: flex;
+}
+
+.pageCell {
+  display: flex;
+  width: 26px;
+  height: 26px;
+  margin: 6px 3px;
+  cursor: pointer;
+  border: 1px solid $gray8;
+  border-radius: 4px;
+  align-items: center;
+  justify-content: center;
+}
+
+.pageCell:hover {
+  background: $gray4;
+}
+
+.previousPageButton {
+  transform: rotate(180deg);
+}
+
+.active {
+  background: $gray8;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.tableWrapper {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 10px;
+}
+
+.filters {
+  display: flex;
+  justify-content: space-between;
+  padding: 18px;
+
+  .filtersLeft {
+    display: flex;
+    gap: 12px;
+
+    .icon {
+      cursor: pointer;
+
+      div {
+        display: flex;
+      }
+    }
+
+    .search {
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      gap: 8px;
+      border: 1px solid $gray8;
+      border-radius: 6px;
+      height: 34px;
+      box-sizing: border-box;
+      box-shadow: $shadow2;
+
+      .searchInput {
+        outline: none;
+        border: unset;
+        color: $gray76;
+        font: $fontMediumS;
+        line-height: $lineHeightS;
+
+        &::placeholder {
+          color: $gray50;
+        }
+      }
+
+      &:focus-within {
+        border-color: $primary;
+      }
+    }
+
+    .button {
+      display: flex;
+      align-items: center;
+      padding: 0 8px;
+      gap: 8px;
+      border: 1px solid $gray8;
+      border-radius: 6px;
+      height: 34px;
+      box-sizing: border-box;
+      box-shadow: $shadow2;
+      cursor: pointer;
+      color: $gray76;
+
+      &:hover {
+        background: $gray2;
+        border-color: $gray10;
+      }
+    }
+  }
+}
+

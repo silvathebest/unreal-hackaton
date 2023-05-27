@@ -23,12 +23,10 @@ export type Report = {
 
 type InitialStateProps = {
   data: Report[]
-  filter: string
 }
 
 const initialState: InitialStateProps = {
-  data: [],
-  filter: ''
+  data: []
 }
 
 export const reportModel = createSlice({
@@ -37,8 +35,7 @@ export const reportModel = createSlice({
   reducers: {
     addReports: (state, {payload}: PayloadAction<Report[]>) => {
       state.data = payload
-    },
-    clearUser: () => initialState
+    }
   }
 })
 

@@ -4,6 +4,7 @@ import {Navigate, Route, Routes} from 'react-router-dom'
 import {getUserLs, setUser, useIsAuthenticated} from 'entities/user'
 
 const ReportsPage = lazy(() => import('./reports'))
+const ReportDetailPage = lazy(() => import('./reportDetail'))
 const TasksPage = lazy(() => import('./tasks'))
 const NotificationsPage = lazy(() => import('./notifications'))
 const NotesPage = lazy(() => import('./notes'))
@@ -40,6 +41,7 @@ const Routing = () => {
     <Suspense fallback='Loading...'>
       <Routes>
         <Route path='/reports' element={<ReportsPage />} />
+        <Route path='/reports/:id' element={<ReportDetailPage />} />
         <Route path='/tasks' element={<TasksPage />} />
         <Route path='/notifications' element={<NotificationsPage />} />
         <Route path='/notes' element={<NotesPage />} />

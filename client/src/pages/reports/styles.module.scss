@@ -81,6 +81,8 @@
         flex-wrap: wrap;
         gap: 18px;
         padding: 0 18px;
+        height: calc(100vh - 122px);
+        overflow: auto;
 
         .card {
           width: 204px;
@@ -88,6 +90,7 @@
           border: 1px solid $gray8;
           border-radius: 12px;
           box-sizing: border-box;
+          cursor: pointer;
 
           .title {
             border-bottom: 1px solid $gray8;
