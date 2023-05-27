@@ -21,6 +21,7 @@ interface ReportModel extends Model<InferAttributes<ReportModel>, InferCreationA
   userId: number
   status: number
   count: number
+  uploadStatus: boolean,
 }
 
 
@@ -30,6 +31,7 @@ export const Report = sequelize.define<ReportModel>('reports', {
   icon: {type: DataTypes.STRING, allowNull: true},
   status: {type: DataTypes.INTEGER, defaultValue: 1},
   count: {type: DataTypes.INTEGER, defaultValue: 0},
+  uploadStatus: {type: DataTypes.BOOLEAN},
   userId: {
     type: DataTypes.INTEGER, references: {
       model: User,

@@ -32,16 +32,18 @@ export const uploadReport = async (req: Request, res: Response) => {
       code: '400',
       message: 'User not found'
     })
-
     const json = utils.sheet_to_json(workSheet)
 
     const report = await Report.create({
       userId: user.id,
       name: req.body.name,
       icon: req.body.icon || '',
+      uploadStatus: false,
       status: 1,
       count: json.length
     })
+
+    res.status(200).send({reportId: report.id})
 
     for (const item of json) {
       const typedItem = item as Record<string, string>
@@ -62,9 +64,10 @@ export const uploadReport = async (req: Request, res: Response) => {
     }
 
     // @ts-ignore
-    ReportData.bulkCreate(json)
+    await ReportData.bulkCreate(json)
+    await report.update({uploadStatus: true})
 
-    return res.status(200).send('FILE IN PROGRESS')
+    return
   } catch (err) {
     return res.status(200).json({
       status: 'failed',
@@ -72,4 +75,25 @@ export const uploadReport = async (req: Request, res: Response) => {
       message: 'Internal server error'
     })
   }
+}
+
+export const checkReportStatus = async (req: Request, res: Response) => {
+  const reportId = req.params.id
+
+  if (!reportId) return res.status(400).json({
+    status: 'failed',
+    code: '400',
+    message: 'No query params'
+  })
+
+  const report = await Report.findOne({where: {id: Number(reportId)}})
+
+  if (!report) return res.status(400).json({
+    status: 'failed',
+    code: '400',
+    message: 'No report with current id'
+  })
+
+  return res.status(200)
+    .send({status: report.uploadStatus ? 'created' : 'in-progress'})
 }
