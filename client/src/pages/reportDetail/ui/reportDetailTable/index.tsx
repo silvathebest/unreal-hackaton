@@ -7,6 +7,7 @@ import {ReactSVG} from 'react-svg'
 import {GetReportDetail, useGetReportDetailsData} from 'entities/reportDetail'
 import {useDebounce} from 'shared/hooks'
 import {Button, TableContainer} from 'shared/overrideMui'
+import appointmentIcon from './icon/appointment.svg'
 import clientDateBirthIcon from './icon/clientDateBirth.svg'
 import clientIdIcon from './icon/clientId.svg'
 import diagnosisIcon from './icon/diagnosis.svg'
@@ -15,6 +16,8 @@ import genderIcon from './icon/gender.svg'
 import idMKBIcon from './icon/idMKB.svg'
 import positionIcon from './icon/position.svg'
 import searchIcon from './icon/search.svg'
+import serviceDateIcon from './icon/serviceDate.svg'
+import standardIcon from './icon/standard.svg'
 import styles from './styles.module.scss'
 
 export const ReportDetailTable = () => {
@@ -31,6 +34,23 @@ export const ReportDetailTable = () => {
   useEffect(() => {
     refetch()
   }, [refetch, page, filter])
+
+  const renderStandard = (standard:number) => {
+    switch (standard) {
+    case 1:
+      return (
+        <div className={styles.standardOne}>Соответствует</div>
+      )
+    case 2:
+      return(
+        <div className={styles.standardTwo}>Частично</div>
+      )
+    case 3:
+      return(
+        <div className={styles.standardThree}>Доп. назначения</div>
+      )
+    }
+  }
 
   return (
     <>
@@ -72,13 +92,48 @@ export const ReportDetailTable = () => {
                 </div>
 
               </TableCell>
-              <TableCell>ИД&nbsp;пациента</TableCell>
-              <TableCell>Код&nbsp;МКБ-10</TableCell>
-              <TableCell>Должность</TableCell>
-              <TableCell>Дата&nbsp;оказания&nbsp;услуги</TableCell>
-              <TableCell>Стандарт</TableCell>
-              <TableCell>Диагноз</TableCell>
-              <TableCell>Назначение</TableCell>
+              <TableCell>
+                <div className={styles.headerColumnContainer}>
+                  <ReactSVG src={clientIdIcon} className={styles.icon} />&nbsp;
+                  ИД&nbsp;пациента
+                </div>
+              </TableCell>
+              <TableCell>
+                <div className={styles.headerColumnContainer}>
+                  <ReactSVG src={idMKBIcon} className={styles.icon} />&nbsp;
+                  Код&nbsp;МКБ-10
+                </div>
+              </TableCell>
+              <TableCell>
+                <div className={styles.headerColumnContainer}>
+                  <ReactSVG src={positionIcon} className={styles.icon} />&nbsp;
+                  Должность
+                </div>
+              </TableCell>
+              <TableCell>
+                <div className={styles.headerColumnContainer}>
+                  <ReactSVG src={serviceDateIcon} className={styles.icon} />&nbsp;
+                  Дата&nbsp;оказания&nbsp;услуги
+                </div>
+              </TableCell>
+              <TableCell>
+                <div className={styles.headerColumnContainer}>
+                  <ReactSVG src={standardIcon} className={styles.icon} />&nbsp;
+                  Стандарт
+                </div>
+              </TableCell>
+              <TableCell>
+                <div className={styles.headerColumnContainer}>
+                  <ReactSVG src={diagnosisIcon} className={styles.icon} />&nbsp;
+                  Диагноз
+                </div>
+              </TableCell>
+              <TableCell>
+                <div className={styles.headerColumnContainer}>
+                  <ReactSVG src={appointmentIcon} className={styles.icon} />&nbsp;
+                  Назначение
+                </div>
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -104,16 +159,29 @@ export const ReportDetailTable = () => {
                   </div>
                 </TableCell>
                 <TableCell>
-                  {moment(item.serviceDate).format('DD.MM.YYYY') + ' в ' + moment(item.serviceDate).format('hh.mm')}
+                  {moment(item.serviceDate).format('DD.MM.YYYY') + ' в ' + moment(item.serviceDate).format('hh:mm')}
                 </TableCell>
                 <TableCell>
-                  7
+                  {item.standard === 1
+                    ?
+                    <div className={styles.standardOne}>Соответствует</div>
+                    :
+                    (item.standard === 2
+                      ?
+                      <div className={styles.standardTwo}>Частично</div>
+                      :
+                      <div className={styles.standardThree}>Доп. назначения</div>
+                    )}
                 </TableCell>
                 <TableCell>
-                  8
+                  <div className={styles.textEllipsis}>
+                    {item.diagnosis}
+                  </div>
                 </TableCell>
                 <TableCell>
-                  9
+                  <div className={styles.textEllipsis}>
+                    {item.appointments}
+                  </div>
                 </TableCell>
               </TableRow>
             ))}
