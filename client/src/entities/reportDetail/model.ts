@@ -40,7 +40,7 @@ export const reportDetailModel = createSlice({
 
 export const {} = reportDetailModel.actions
 
-export const limitReportDetail = 10
+export const limitReportDetail = 50
 
 export const GetReportDetail = ({filter, page, reportId}: {filter: string, page: number, reportId: number}, dispatch: Dispatch) =>
   useQuery<AxiosResponse<{data: ReportDetail[], count: number}>, ErrorResponsesType>(
