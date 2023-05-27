@@ -4,12 +4,13 @@ import {Button, Loader} from 'shared/overrideMui'
 import styles from './styles.module.scss'
 
 type LoadingButtonProps = MuiButtonProps & {
-  isLoading?: boolean
+  isLoading?: boolean,
+  disabled?: boolean
 }
 
-export const LoadingButton: React.FC<LoadingButtonProps> = ({children, isLoading, className, ...rest}) => {
+export const LoadingButton: React.FC<LoadingButtonProps> = ({children, isLoading, disabled, className, ...rest}) => {
   return (
-    <Button disabled={isLoading} {...rest}>
+    <Button disabled={isLoading || disabled} {...rest}>
       {children}
       {isLoading ? <Loader className={styles.loader} /> : null}
     </Button>

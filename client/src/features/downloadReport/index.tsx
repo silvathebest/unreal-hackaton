@@ -17,6 +17,7 @@ export const DownloadReport: FC<DownloadReportProps> = ({isOpen, onClose}) => {
   const [title, setTitle] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [reportId, setReportId] = useState<number | null>(null)
+  const [error, setError] = useState('')
 
   const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -41,6 +42,7 @@ export const DownloadReport: FC<DownloadReportProps> = ({isOpen, onClose}) => {
       .then(({data}) => setReportId(data.reportId))
       .catch((e) => {
         console.error(e)
+        onErrorHandler(e)
         setIsLoading(false)
       })
   }
@@ -58,6 +60,15 @@ export const DownloadReport: FC<DownloadReportProps> = ({isOpen, onClose}) => {
     }, []
   )
 
+  const onErrorHandler = (e: Error) => setError(e.message)
+
+  const deleteFileHandler = () => {
+    if (isLoading) return
+
+    setFile(null)
+    setError('')
+  }
+
 
   useEffect(() => {
     if (!isLoading || !reportId) return
@@ -71,7 +82,10 @@ export const DownloadReport: FC<DownloadReportProps> = ({isOpen, onClose}) => {
             onSuccess()
           }
         })
-        .catch(() => stopLoading(interval))
+        .catch((e: Error) => {
+          onErrorHandler(e)
+          stopLoading(interval)
+        })
     }, 1000)
   }, [isLoading, reportId])
 
@@ -85,6 +99,7 @@ export const DownloadReport: FC<DownloadReportProps> = ({isOpen, onClose}) => {
         <form onSubmit={onSelectFileHandler}>
           <div className={styles.container}>
             <input
+              disabled={isLoading}
               required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -104,15 +119,16 @@ export const DownloadReport: FC<DownloadReportProps> = ({isOpen, onClose}) => {
                     </div>
                   </div>
                   <div className={styles.deleteIcon}>
-                    <Delete20Regular onClick={() => setFile(null)} />
+                    <Delete20Regular onClick={deleteFileHandler} />
                   </div>
                 </div>
                 : null
             }
 
-            <LoadingButton type='submit' variant='contained' isLoading={isLoading}>
+            <LoadingButton disabled={Boolean(error)} type='submit' variant='contained' isLoading={isLoading}>
               {file ? 'Загрузить' : 'Выбрать файл'}
             </LoadingButton>
+            {error ? <span className={styles.error}>{error}</span> : null}
           </div>
         </form>
       </Modal>
