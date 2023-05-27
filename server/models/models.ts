@@ -53,6 +53,7 @@ interface ReportDataModel extends Model<InferAttributes<ReportDataModel>, InferC
   serviceDate: Date,
   position: string,
   appointments: string,
+  conformity: number,
   reportId: number
 }
 
@@ -67,6 +68,7 @@ export const ReportData = sequelize.define<ReportDataModel>('reports_data', {
   serviceDate: {type: DataTypes.DATE},
   position: {type: DataTypes.STRING},
   appointments: {type: DataTypes.TEXT},
+  conformity: {type: DataTypes.INTEGER},
   reportId: {
     type: DataTypes.INTEGER, references: {
       model: Report,

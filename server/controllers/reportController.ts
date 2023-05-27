@@ -20,3 +20,26 @@ export const getAll = async (req: Request, res: Response) => {
 
   res.json({data: reports})
 }
+
+
+
+export const checkReportStatus = async (req: Request, res: Response) => {
+  const reportId = req.params.id
+
+  if (!reportId) return res.status(400).json({
+    status: 'failed',
+    code: '400',
+    message: 'No query params'
+  })
+
+  const report = await Report.findOne({where: {id: Number(reportId)}})
+
+  if (!report) return res.status(400).json({
+    status: 'failed',
+    code: '400',
+    message: 'No report with current id'
+  })
+
+  return res.status(200)
+    .send({status: report.uploadStatus ? 'created' : 'in-progress'})
+}
