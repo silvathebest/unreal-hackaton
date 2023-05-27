@@ -33,7 +33,7 @@ const router = Router()
  *       200:
  *         description: File in progress
  */
-router.post('/report', authMiddleware, uploadReport)
+router.post('/upload', authMiddleware, uploadReport)
 
 /**
  * @openapi
@@ -48,7 +48,7 @@ router.post('/report', authMiddleware, uploadReport)
  *       200:
  *         description: File in progress
  */
-router.get('/report:id', authMiddleware, checkReportStatus)
+router.get('/status/:id', authMiddleware, checkReportStatus)
 router.get('/', authMiddleware, getAll)
 
 export default router

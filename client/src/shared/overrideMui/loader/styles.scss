@@ -1,0 +1,44 @@
+@import 'shared/styles/vars.scss';
+@import 'shared/styles/typography.scss';
+
+.override-circularProgress {
+  width: 20px;
+  height: 20px;
+  position: relative;
+
+  .override-circularProgressActive-root {
+
+    &.MuiCircularProgress-root {
+      color: $primary;
+    }
+
+    & .MuiCircularProgress-svg {
+      border-radius: 100%;
+    }
+
+    & .MuiCircularProgress-circle {
+      stroke-dasharray: 34px, 200px;
+      stroke-width: 16px;
+      animation: unset;
+    }
+  }
+
+  .override-circularProgressInactive-root {
+
+    &.MuiCircularProgress-root {
+      color: rgba($black, .1);
+      position: absolute;
+      left: 0;
+    }
+
+    & .MuiCircularProgress-svg {
+      border-radius: 100%;
+    }
+
+    & .MuiCircularProgress-circle {
+      stroke-dasharray: 34px, 200px;
+      stroke-width: 16px;
+      animation: unset;
+    }
+  }
+}

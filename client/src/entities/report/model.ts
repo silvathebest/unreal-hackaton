@@ -5,10 +5,10 @@ import {useSelector} from 'react-redux'
 import {ErrorResponsesType} from 'shared/types'
 
 export const UploadReport = (formData: FormData): Promise<AxiosResponse<{reportId: number}, null>> =>
-  axios.post('/upload/report', formData)
+  axios.post('report/upload', formData)
 
 export const CheckReportStatus = (reportId: number): Promise<AxiosResponse<{status: boolean}, null>> =>
-  axios.get(`upload/report`, {params: {id: reportId}})
+  axios.get(`report/status/${reportId}`)
 
 export type Report = {
   id: number

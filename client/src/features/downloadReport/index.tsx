@@ -2,7 +2,7 @@ import {Delete20Regular} from '@fluentui/react-icons'
 import {Modal} from '@mui/material'
 import React, {ChangeEvent, FC, FormEvent, useCallback, useEffect, useRef, useState} from 'react'
 import {CheckReportStatus, UploadReport} from 'entities/report'
-import {Button} from 'shared/overrideMui'
+import {LoadingButton} from '../loadingButton'
 import xlsxImg from './img/xlsx.png'
 import styles from './styles.module.scss'
 
@@ -45,10 +45,18 @@ export const DownloadReport: FC<DownloadReportProps> = ({isOpen, onClose}) => {
       })
   }
 
-  const clearInterval = useCallback((interval: number) => {
+  const stopLoading = useCallback((interval: number) => {
     setIsLoading(false)
     clearInterval(interval)
   }, [])
+
+  const onSuccess = useCallback(
+    () => {
+      setFile(null)
+      setTitle('')
+      setReportId(null)
+    }, []
+  )
 
 
   useEffect(() => {
@@ -58,18 +66,13 @@ export const DownloadReport: FC<DownloadReportProps> = ({isOpen, onClose}) => {
       CheckReportStatus(reportId)
         .then((status) => {
           if (status) {
-            clearInterval(interval)
+            stopLoading(interval)
             onClose()
+            onSuccess()
           }
         })
-        .catch(() => clearInterval(interval))
+        .catch(() => stopLoading(interval))
     }, 1000)
-
-    console.log(interval)
-
-    return () => {
-      clearInterval(interval)
-    }
   }, [isLoading, reportId])
 
 
@@ -107,9 +110,9 @@ export const DownloadReport: FC<DownloadReportProps> = ({isOpen, onClose}) => {
                 : null
             }
 
-            <Button type='submit' variant='contained'>
+            <LoadingButton type='submit' variant='contained' isLoading={isLoading}>
               {file ? 'Загрузить' : 'Выбрать файл'}
-            </Button>
+            </LoadingButton>
           </div>
         </form>
       </Modal>

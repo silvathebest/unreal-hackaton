@@ -78,7 +78,8 @@ export const uploadReport = async (req: Request, res: Response) => {
 }
 
 export const checkReportStatus = async (req: Request, res: Response) => {
-  const reportId = req.query.id
+  const reportId = req.params.id
+
   if (!reportId) return res.status(400).json({
     status: 'failed',
     code: '400',
