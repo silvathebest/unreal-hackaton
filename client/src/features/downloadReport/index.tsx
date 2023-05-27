@@ -1,8 +1,8 @@
 import {Delete20Regular} from '@fluentui/react-icons'
 import {Modal} from '@mui/material'
-import React, {ChangeEvent, FC, FormEvent, useRef, useState} from 'react'
-import {UploadReport} from 'entities/report'
-import {Button} from 'shared/overrideMui'
+import React, {ChangeEvent, FC, FormEvent, useCallback, useEffect, useRef, useState} from 'react'
+import {CheckReportStatus, UploadReport} from 'entities/report'
+import {LoadingButton} from '../loadingButton'
 import xlsxImg from './img/xlsx.png'
 import styles from './styles.module.scss'
 
@@ -15,6 +15,9 @@ export const DownloadReport: FC<DownloadReportProps> = ({isOpen, onClose}) => {
   const inputFileRef = useRef<HTMLInputElement | null>(null)
   const [file, setFile] = useState<File | null>(null)
   const [title, setTitle] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [reportId, setReportId] = useState<number | null>(null)
+  const [error, setError] = useState('')
 
   const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -34,11 +37,58 @@ export const DownloadReport: FC<DownloadReportProps> = ({isOpen, onClose}) => {
     formData.append('report', file)
     formData.append('name', title)
     formData.append('icon', '❤️')
-    UploadReport(formData).then(() => {
-      //TODO add interval checking
-      onClose()
-    }).catch(console.error)
+    setIsLoading(true)
+    UploadReport(formData)
+      .then(({data}) => setReportId(data.reportId))
+      .catch((e) => {
+        console.error(e)
+        onErrorHandler(e)
+        setIsLoading(false)
+      })
   }
+
+  const stopLoading = useCallback((interval: number) => {
+    setIsLoading(false)
+    clearInterval(interval)
+  }, [])
+
+  const onSuccess = useCallback(
+    () => {
+      setFile(null)
+      setTitle('')
+      setReportId(null)
+    }, []
+  )
+
+  const onErrorHandler = (e: Error) => setError(e.message)
+
+  const deleteFileHandler = () => {
+    if (isLoading) return
+
+    setFile(null)
+    setError('')
+  }
+
+
+  useEffect(() => {
+    if (!isLoading || !reportId) return
+
+    const interval = window.setInterval(() => {
+      CheckReportStatus(reportId)
+        .then((status) => {
+          if (status) {
+            stopLoading(interval)
+            onClose()
+            onSuccess()
+          }
+        })
+        .catch((e: Error) => {
+          onErrorHandler(e)
+          stopLoading(interval)
+        })
+    }, 1000)
+  }, [isLoading, reportId])
+
 
   return (
     <>
@@ -49,6 +99,7 @@ export const DownloadReport: FC<DownloadReportProps> = ({isOpen, onClose}) => {
         <form onSubmit={onSelectFileHandler}>
           <div className={styles.container}>
             <input
+              disabled={isLoading}
               required
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -68,15 +119,16 @@ export const DownloadReport: FC<DownloadReportProps> = ({isOpen, onClose}) => {
                     </div>
                   </div>
                   <div className={styles.deleteIcon}>
-                    <Delete20Regular onClick={() => setFile(null)} />
+                    <Delete20Regular onClick={deleteFileHandler} />
                   </div>
                 </div>
                 : null
             }
 
-            <Button type='submit' variant='contained'>
+            <LoadingButton disabled={Boolean(error)} type='submit' variant='contained' isLoading={isLoading}>
               {file ? 'Загрузить' : 'Выбрать файл'}
-            </Button>
+            </LoadingButton>
+            {error ? <span className={styles.error}>{error}</span> : null}
           </div>
         </form>
       </Modal>
