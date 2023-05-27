@@ -1,7 +1,7 @@
 import {Delete20Regular} from '@fluentui/react-icons'
 import {Modal} from '@mui/material'
-import React, {ChangeEvent, FC, FormEvent, useRef, useState} from 'react'
-import {UploadReport} from 'entities/report'
+import React, {ChangeEvent, FC, FormEvent, useCallback, useEffect, useRef, useState} from 'react'
+import {CheckReportStatus, UploadReport} from 'entities/report'
 import {Button} from 'shared/overrideMui'
 import xlsxImg from './img/xlsx.png'
 import styles from './styles.module.scss'
@@ -15,6 +15,8 @@ export const DownloadReport: FC<DownloadReportProps> = ({isOpen, onClose}) => {
   const inputFileRef = useRef<HTMLInputElement | null>(null)
   const [file, setFile] = useState<File | null>(null)
   const [title, setTitle] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const [reportId, setReportId] = useState<number | null>(null)
 
   const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -34,11 +36,42 @@ export const DownloadReport: FC<DownloadReportProps> = ({isOpen, onClose}) => {
     formData.append('report', file)
     formData.append('name', title)
     formData.append('icon', '❤️')
-    UploadReport(formData).then(() => {
-      //TODO add interval checking
-      onClose()
-    }).catch(console.error)
+    setIsLoading(true)
+    UploadReport(formData)
+      .then(({data}) => setReportId(data.reportId))
+      .catch((e) => {
+        console.error(e)
+        setIsLoading(false)
+      })
   }
+
+  const clearInterval = useCallback((interval: number) => {
+    setIsLoading(false)
+    clearInterval(interval)
+  }, [])
+
+
+  useEffect(() => {
+    if (!isLoading || !reportId) return
+
+    const interval = window.setInterval(() => {
+      CheckReportStatus(reportId)
+        .then((status) => {
+          if (status) {
+            clearInterval(interval)
+            onClose()
+          }
+        })
+        .catch(() => clearInterval(interval))
+    }, 1000)
+
+    console.log(interval)
+
+    return () => {
+      clearInterval(interval)
+    }
+  }, [isLoading, reportId])
+
 
   return (
     <>
