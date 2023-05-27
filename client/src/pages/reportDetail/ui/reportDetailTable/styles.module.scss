@@ -7,7 +7,6 @@
   border: 1px solid $gray5;
   border-radius: 100px;
   max-width: 178px;
-  // text-overflow: ellipsis;
 }
 
 .idMKB {
@@ -54,6 +53,47 @@
 .textEllipsis {
   overflow: hidden;
   text-overflow: ellipsis;
+}
+
+.paginate {
+  display: flex;
+}
+
+.pageCell {
+  display: flex;
+  width: 26px;
+  height: 26px;
+  margin: 6px 3px;
+  cursor: pointer;
+  border: 1px solid $gray8;
+  border-radius: 4px;
+  align-items: center;
+  justify-content: center;
+}
+
+.pageCell:hover {
+  background: $gray4;
+}
+
+.previousPageButton {
+  transform: rotate(180deg);
+}
+
+.active {
+  background: $gray8;
+}
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.4;
+}
+
+.tableWrapper {
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  justify-content: flex-end;
+  padding-bottom: 10px;
 }
 
 .filters {

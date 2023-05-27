@@ -4,10 +4,11 @@ import React, {useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {useParams} from 'react-router'
 import {ReactSVG} from 'react-svg'
-import {GetReportDetail, useGetReportDetailsData} from 'entities/reportDetail'
+import {GetReportDetail, useGetReportDetailsCountPage, useGetReportDetailsData} from 'entities/reportDetail'
 import {useDebounce} from 'shared/hooks'
 import {Button, TableContainer} from 'shared/overrideMui'
 import appointmentIcon from './icon/appointment.svg'
+import arrowIcon from './icon/arrow.svg'
 import clientDateBirthIcon from './icon/clientDateBirth.svg'
 import clientIdIcon from './icon/clientId.svg'
 import diagnosisIcon from './icon/diagnosis.svg'
@@ -30,30 +31,46 @@ export const ReportDetailTable = () => {
 
   const {refetch} = GetReportDetail({filter, reportId: Number(id), page}, dispatch)
   const reportDetails = useGetReportDetailsData()
+  const reportDetailsCountPage = useGetReportDetailsCountPage()
+
+  const initRenderList = (initPage:number):number[] => {
+    const initialPages:number[] = []
+    for (let i = initPage; i <= reportDetailsCountPage && i <= page + 6; i++) {
+      initialPages.push(i)
+    }
+    return initialPages
+  }
+
+  const [currentPagesList, setCurrentPagesList] = useState<number[]>([])
 
   useEffect(() => {
     refetch()
   }, [refetch, page, filter])
 
-  const renderStandard = (standard:number) => {
-    switch (standard) {
-    case 1:
-      return (
-        <div className={styles.standardOne}>Соответствует</div>
-      )
-    case 2:
-      return(
-        <div className={styles.standardTwo}>Частично</div>
-      )
-    case 3:
-      return(
-        <div className={styles.standardThree}>Доп. назначения</div>
-      )
-    }
+  useEffect(() => {
+    currentPagesList.includes(page) ? null : setCurrentPagesList(initRenderList(page))
+  }, [page])
+
+  useEffect(() => setCurrentPagesList(initRenderList(page)), [reportDetailsCountPage])
+  const renderPaginate = (currentPagesList:number[]) => {
+    return(
+      <div className={styles.paginate}>
+        <div className={(page === 1 ? styles.disabled + ' ' : '') + styles.pageCell + ' ' + styles.previousPageButton} onClick={() => setPage(page - 1)}>
+          <ReactSVG src={arrowIcon} className={styles.icon} />
+        </div>
+
+        {currentPagesList.map((number) => (<div className={(number === page ? `${styles.active} ` : '') + styles.pageCell}
+          key={number} onClick={() => setPage(number)}>{number}</div>))}
+
+        <div className={(page === reportDetailsCountPage ? styles.disabled + ' ' : '') + styles.pageCell } onClick={() => setPage(page + 1)}>
+          <ReactSVG src={arrowIcon} className={styles.icon} />
+        </div>
+      </div>
+    )
   }
 
   return (
-    <>
+    <div className={styles.tableWrapper}>
       <div className={styles.filters}>
         <div className={styles.filtersLeft}>
           <div className={styles.search}>
@@ -188,13 +205,8 @@ export const ReportDetailTable = () => {
           </TableBody>
         </Table>
       </TableContainer>
-      <div className={styles.paginate}>
-        <div onClick={() => setPage(1)}>1</div>
-        <div onClick={() => setPage(2)}>2</div>
-        <div onClick={() => setPage(3)}>3</div>
-        <div onClick={() => setPage(4)}>4</div>
-        <div onClick={() => setPage(5)}>5</div>
-      </div>
-    </>
+
+      {renderPaginate(currentPagesList)}
+    </div>
   )
 }
