@@ -1,5 +1,6 @@
 import Router from 'express'
 import {checkReportStatus, uploadReport} from '../controllers/uploadController'
+import {getAll} from '../controllers/reportController'
 import authMiddleware from '../middleware/authMiddleware'
 
 const router = Router()
@@ -48,5 +49,6 @@ router.post('/report', authMiddleware, uploadReport)
  *         description: File in progress
  */
 router.get('/report:id', authMiddleware, checkReportStatus)
+router.get('/', authMiddleware, getAll)
 
 export default router

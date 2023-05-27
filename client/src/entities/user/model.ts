@@ -4,7 +4,7 @@ import {useQuery} from 'react-query'
 import {useSelector} from 'react-redux'
 import {deleteToken, setToken} from 'shared/lib'
 import {ErrorResponsesType} from 'shared/types'
-
+import {deleteUser, setUserLs} from './user'
 
 export type User = {
   id: number
@@ -29,6 +29,7 @@ export const userModel = createSlice({
       ({...state, ...payload, isAuthenticated: true}),
     clearUser: () => {
       deleteToken()
+      deleteUser()
       return initialState
     }
   }
@@ -37,14 +38,14 @@ export const userModel = createSlice({
 export const {setUser, clearUser} = userModel.actions
 
 export const UserAuth = (login: string, password: string, dispatch: Dispatch) =>
-  useQuery<AxiosResponse<{token: string}>, ErrorResponsesType>(
+  useQuery<AxiosResponse<{token: string, userData: User}>, ErrorResponsesType>(
     'userAuth',
     () => axios.post('/user/login', {login, password}),
     {
       onSuccess: ({data}) => {
-        // TODO: получать информацию об юзере из запроса
-        dispatch(setUser({id: 1, login}))
         setToken(data.token)
+        setUserLs(data.userData)
+        dispatch(setUser(data.userData))
       },
       enabled: false,
       refetchOnWindowFocus: false,
@@ -58,3 +59,5 @@ export const useIsAuthenticated = () => useSelector(
     (isAuthenticated) => isAuthenticated
   )
 )
+
+export const getLogin = () => useSelector((state: RootState) => state.user.login)

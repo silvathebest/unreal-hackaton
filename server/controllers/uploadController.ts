@@ -32,18 +32,19 @@ export const uploadReport = async (req: Request, res: Response) => {
       code: '400',
       message: 'User not found'
     })
+    const json = utils.sheet_to_json(workSheet)
 
     const report = await Report.create({
       userId: user.id,
       name: req.body.name,
       icon: req.body.icon || '',
       uploadStatus: false,
-      status: 1
+      status: 1,
+      count: json.length
     })
 
     res.status(200).send({reportId: report.id})
 
-    const json = utils.sheet_to_json(workSheet)
     for (const item of json) {
       const typedItem = item as Record<string, string>
       replaceKeys(typedItem, 'Пол пациента', 'gender')
