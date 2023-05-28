@@ -1,7 +1,7 @@
 import {Request, Response} from 'express'
 import {readFile, utils} from 'xlsx'
 import moment from 'moment'
-import {Report, ReportData, User} from '../models/models'
+import {ConformityTypes, Report, ReportData, User} from '../models/models'
 import {UserRequest} from '../middleware/authMiddleware'
 import * as fs from 'fs'
 
@@ -44,7 +44,8 @@ export const uploadReport = async (req: Request, res: Response) => {
       icon: req.body.icon || '',
       uploadStatus: false,
       status: 1,
-      count: json.length
+      count: json.length,
+      conformityChart: {}
     })
 
     res.status(200).send({reportId: report.id})
@@ -66,12 +67,29 @@ export const uploadReport = async (req: Request, res: Response) => {
       // @ts-ignore
       item.reportId = report.id
       // @ts-ignore
-      item.conformity = Math.floor(Math.random() * 3 + 1)
+      item.conformity = Math.floor(Math.random() * 3 + 1) as ConformityTypes
     }
 
     // @ts-ignore
     await ReportData.bulkCreate(json)
-    await report.update({uploadStatus: true})
+
+    const count = json.length
+
+    await report.update({
+      uploadStatus: true,
+      conformityChart: {
+        count,
+        contactingPercentage: 100,
+        patientCount: getUniqueArrayLength(json, 'clientId'),
+        specialistCount: getUniqueArrayLength(json, 'position'),
+        correspondingCount: getConformityTypeArray(json, ConformityTypes.CORRESPONDING).length,
+        correspondingPercent: getConformityPercent(json, ConformityTypes.CORRESPONDING, count),
+        additionalAppointmentsCount: getConformityTypeArray(json, ConformityTypes.ADDITIONAL).length,
+        additionalAppointmentsPercent: getConformityPercent(json, ConformityTypes.ADDITIONAL, count),
+        partiallyCount: getConformityTypeArray(json, ConformityTypes.PARTIALLY).length,
+        partiallyPercent: getConformityPercent(json, ConformityTypes.PARTIALLY, count)
+      }
+    })
 
     fs.unlinkSync(filePath)
     return
@@ -83,3 +101,10 @@ export const uploadReport = async (req: Request, res: Response) => {
     })
   }
 }
+
+const getUniqueArrayLength = (array: Array<any>, key: string) => Array.from(new Set(array.map(item => item[key]))).length
+
+const getConformityTypeArray = (array: Array<any>, type: ConformityTypes) => array.filter(item => item.conformity === type)
+
+const getConformityPercent = (array: Array<any>, type: ConformityTypes, count: number) =>
+  Math.round(getConformityTypeArray(array, type).length * 100 / count)
