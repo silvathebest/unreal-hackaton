@@ -2,14 +2,14 @@ import {Column, ColumnConfig, Progress} from '@ant-design/charts'
 import React, {useEffect} from 'react'
 import {useDispatch} from 'react-redux'
 import {useParams} from 'react-router'
-import {DonutPie} from 'features'
-import {Sidebar} from 'widgets'
 import {
   ConformityChart,
   GetConformityChartDetail, useGetCardiologyChartDetail,
   useGetConformityChartDetail,
   useGetNeurologyChartDetail, useGetOtolaringologyChartDetail
 } from 'entities/сhartData'
+import {DonutPie} from 'features'
+import {Sidebar} from 'widgets'
 import styles from './styles.module.scss'
 import {ReportDetailTable} from './ui/reportDetailTable'
 

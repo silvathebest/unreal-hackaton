@@ -70,12 +70,12 @@ export const ReportDetailTable = () => {
         </div>
 
         {currentPagesList.map((number) => (
-            <div
-              className={`${(number === page ? `${styles.active}` : '')} ${styles.pageCell}`}
-              key={number}
-              onClick={() => setPage(number)}>{number}
-            </div>
-          )
+          <div
+            className={`${(number === page ? `${styles.active}` : '')} ${styles.pageCell}`}
+            key={number}
+            onClick={() => setPage(number)}>{number}
+          </div>
+        )
         )}
 
         <div
