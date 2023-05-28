@@ -24,6 +24,11 @@ const ReportDetail = () => {
   const cardiologyChartData = useGetCardiologyChartDetail()
   const otolaringologyChartData = useGetOtolaringologyChartDetail()
 
+  console.log({conformityChartData})
+  console.log({neurologyChartData})
+  console.log({cardiologyChartData})
+  console.log({otolaringologyChartData})
+
   useEffect(() => {
     refetch()
   }, [id])
@@ -36,11 +41,11 @@ const ReportDetail = () => {
       },
       {
         type: 'Доп. назначения',
-        value: conformityChartData.additionalAppointmentsPercent,
+        value: conformityChartData.additionalAppointmentsCount,
       },
       {
         type: 'Частично',
-        value: conformityChartData.partiallyPercent,
+        value: conformityChartData.partiallyCount,
       },
     ]
     return (
@@ -69,7 +74,7 @@ const ReportDetail = () => {
 
           <div className={styles.row}>
             <div className={styles.title}>Соответствует</div>
-            <DemoProgress color='#5B8FF9' percent={0.8} />
+            <DemoProgress color='#5B8FF9' percent={conformityChartData.additionalAppointmentsPercent / 100} />
             <div className={styles.value}>{conformityChartData.correspondingCount}</div>
             <div className={styles.percentageBlue}>{conformityChartData.correspondingPercent}%</div>
           </div>
