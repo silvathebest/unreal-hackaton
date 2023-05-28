@@ -1,7 +1,7 @@
 import {Request, Response} from 'express'
 import {readFile, utils} from 'xlsx'
 import moment from 'moment'
-import {ConformityTypes, Report, ReportData, User} from '../models/models'
+import {ConformityEnum, PositionEnum, Report, ReportData, User} from '../models/models'
 import {UserRequest} from '../middleware/authMiddleware'
 import * as fs from 'fs'
 
@@ -45,7 +45,10 @@ export const uploadReport = async (req: Request, res: Response) => {
       uploadStatus: false,
       status: 1,
       count: json.length,
-      conformityChart: {}
+      conformityChart: {},
+      neurologyChart: {},
+      cardiologyChart: {},
+      otolaryngologyChart: {}
     })
 
     res.status(200).send({reportId: report.id})
@@ -67,13 +70,19 @@ export const uploadReport = async (req: Request, res: Response) => {
       // @ts-ignore
       item.reportId = report.id
       // @ts-ignore
-      item.conformity = Math.floor(Math.random() * 3 + 1) as ConformityTypes
+      item.conformity = Math.floor(Math.random() * 3 + 1) as ConformityEnum
     }
 
     // @ts-ignore
     await ReportData.bulkCreate(json)
 
     const count = json.length
+    const cardiologyArray = getArrayByDepartment(json, PositionEnum.CARDIOLOGY)
+    const cardiologyCount = cardiologyArray.length
+    const neurologyArray = getArrayByDepartment(json, PositionEnum.NEUROLOGY)
+    const neurologyCount = neurologyArray.length
+    const otolaryngologyArray = getArrayByDepartment(json, PositionEnum.OTOLARYNGOLOGY)
+    const otolaryngologyCount = otolaryngologyArray.length
 
     await report.update({
       uploadStatus: true,
@@ -82,12 +91,48 @@ export const uploadReport = async (req: Request, res: Response) => {
         contactingPercentage: 100,
         patientCount: getUniqueArrayLength(json, 'clientId'),
         specialistCount: getUniqueArrayLength(json, 'position'),
-        correspondingCount: getConformityTypeArray(json, ConformityTypes.CORRESPONDING).length,
-        correspondingPercent: getConformityPercent(json, ConformityTypes.CORRESPONDING, count),
-        additionalAppointmentsCount: getConformityTypeArray(json, ConformityTypes.ADDITIONAL).length,
-        additionalAppointmentsPercent: getConformityPercent(json, ConformityTypes.ADDITIONAL, count),
-        partiallyCount: getConformityTypeArray(json, ConformityTypes.PARTIALLY).length,
-        partiallyPercent: getConformityPercent(json, ConformityTypes.PARTIALLY, count)
+        correspondingCount: getConformityTypeArray(json, ConformityEnum.CORRESPONDING).length,
+        correspondingPercent: getConformityPercent(json, ConformityEnum.CORRESPONDING, count),
+        additionalAppointmentsCount: getConformityTypeArray(json, ConformityEnum.ADDITIONAL).length,
+        additionalAppointmentsPercent: getConformityPercent(json, ConformityEnum.ADDITIONAL, count),
+        partiallyCount: getConformityTypeArray(json, ConformityEnum.PARTIALLY).length,
+        partiallyPercent: getConformityPercent(json, ConformityEnum.PARTIALLY, count)
+      },
+      cardiologyChart: {
+        count: cardiologyCount,
+        contactingPercentage: Math.round(cardiologyCount * 100 / count),
+        patientCount: getUniqueArrayLength(cardiologyArray, 'clientId'),
+        specialistCount: getUniqueArrayLength(cardiologyArray, 'position'),
+        correspondingCount: getConformityTypeArray(cardiologyArray, ConformityEnum.CORRESPONDING).length,
+        correspondingPercent: getConformityPercent(cardiologyArray, ConformityEnum.CORRESPONDING, cardiologyCount),
+        additionalAppointmentsCount: getConformityTypeArray(cardiologyArray, ConformityEnum.ADDITIONAL).length,
+        additionalAppointmentsPercent: getConformityPercent(cardiologyArray, ConformityEnum.ADDITIONAL, cardiologyCount),
+        partiallyCount: getConformityTypeArray(cardiologyArray, ConformityEnum.PARTIALLY).length,
+        partiallyPercent: getConformityPercent(cardiologyArray, ConformityEnum.PARTIALLY, cardiologyCount)
+      },
+      neurologyChart: {
+        count: neurologyCount,
+        contactingPercentage: Math.round(neurologyCount * 100 / count),
+        patientCount: getUniqueArrayLength(neurologyArray, 'clientId'),
+        specialistCount: getUniqueArrayLength(neurologyArray, 'position'),
+        correspondingCount: getConformityTypeArray(neurologyArray, ConformityEnum.CORRESPONDING).length,
+        correspondingPercent: getConformityPercent(neurologyArray, ConformityEnum.CORRESPONDING, neurologyCount),
+        additionalAppointmentsCount: getConformityTypeArray(neurologyArray, ConformityEnum.ADDITIONAL).length,
+        additionalAppointmentsPercent: getConformityPercent(neurologyArray, ConformityEnum.ADDITIONAL, neurologyCount),
+        partiallyCount: getConformityTypeArray(neurologyArray, ConformityEnum.PARTIALLY).length,
+        partiallyPercent: getConformityPercent(neurologyArray, ConformityEnum.PARTIALLY, neurologyCount)
+      },
+      otolaryngologyChart: {
+        count: otolaryngologyCount,
+        contactingPercentage: Math.round(otolaryngologyCount * 100 / count),
+        patientCount: getUniqueArrayLength(otolaryngologyArray, 'clientId'),
+        specialistCount: getUniqueArrayLength(otolaryngologyArray, 'position'),
+        correspondingCount: getConformityTypeArray(otolaryngologyArray, ConformityEnum.CORRESPONDING).length,
+        correspondingPercent: getConformityPercent(otolaryngologyArray, ConformityEnum.CORRESPONDING, otolaryngologyCount),
+        additionalAppointmentsCount: getConformityTypeArray(otolaryngologyArray, ConformityEnum.ADDITIONAL).length,
+        additionalAppointmentsPercent: getConformityPercent(otolaryngologyArray, ConformityEnum.ADDITIONAL, otolaryngologyCount),
+        partiallyCount: getConformityTypeArray(otolaryngologyArray, ConformityEnum.PARTIALLY).length,
+        partiallyPercent: getConformityPercent(otolaryngologyArray, ConformityEnum.PARTIALLY, otolaryngologyCount)
       }
     })
 
@@ -104,7 +149,9 @@ export const uploadReport = async (req: Request, res: Response) => {
 
 const getUniqueArrayLength = (array: Array<any>, key: string) => Array.from(new Set(array.map(item => item[key]))).length
 
-const getConformityTypeArray = (array: Array<any>, type: ConformityTypes) => array.filter(item => item.conformity === type)
+const getArrayByDepartment = (array: Array<any>, position: PositionEnum) => array.filter(item => item.position === position)
 
-const getConformityPercent = (array: Array<any>, type: ConformityTypes, count: number) =>
+const getConformityTypeArray = (array: Array<any>, type: ConformityEnum) => array.filter(item => item.conformity === type)
+
+const getConformityPercent = (array: Array<any>, type: ConformityEnum, count: number) =>
   Math.round(getConformityTypeArray(array, type).length * 100 / count)
