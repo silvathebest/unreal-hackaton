@@ -1,6 +1,6 @@
 import Router from 'express'
 import {uploadReport} from '../controllers/uploadController'
-import {checkReportStatus, getAll, getReport} from '../controllers/reportController'
+import {checkReportStatus, exportReport, getAll, getReport} from '../controllers/reportController'
 import authMiddleware from '../middleware/authMiddleware'
 
 const router = Router()
@@ -165,5 +165,7 @@ router.get('/', authMiddleware, getAll)
  *                     description: data for otolaryngology chart
  */
 router.get('/:id', authMiddleware, getReport)
+
+router.get('/export/:id', authMiddleware, exportReport)
 
 export default router

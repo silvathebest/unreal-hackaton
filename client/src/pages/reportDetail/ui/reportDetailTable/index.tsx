@@ -6,7 +6,7 @@ import {useParams} from 'react-router'
 import {ReactSVG} from 'react-svg'
 import {GetReportDetail, useGetReportDetailsCountPage, useGetReportDetailsData} from 'entities/reportDetail'
 import {useDebounce} from 'shared/hooks'
-import {TableContainer} from 'shared/overrideMui'
+import {Button, TableContainer} from 'shared/overrideMui'
 import appointmentIcon from './icon/appointment.svg'
 import arrowIcon from './icon/arrow.svg'
 import clientDateBirthIcon from './icon/clientDateBirth.svg'
@@ -27,6 +27,7 @@ export const ReportDetailTable = () => {
 
   const [page, setPage] = useState(1)
   const [inputValue, setInputValue] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   const filter = useDebounce(inputValue)
 
   const {refetch} = GetReportDetail({filter, reportId: Number(id), page}, dispatch)
@@ -44,7 +45,7 @@ export const ReportDetailTable = () => {
   const [currentPagesList, setCurrentPagesList] = useState<number[]>([])
 
   useEffect(() => {
-    refetch()
+    refetch().catch(console.error)
   }, [refetch, page, filter])
 
   useEffect(() => {
@@ -84,7 +85,13 @@ export const ReportDetailTable = () => {
     setInputValue(event.target.value)
     setPage(1)
   }, [])
-  
+
+  const exportHandler = () => {
+    if (isLoading) return
+    setIsLoading(true)
+
+  }
+
   return (
     <div className={styles.tableWrapper}>
       <div className={styles.filters}>
@@ -104,6 +111,7 @@ export const ReportDetailTable = () => {
             <ReactSVG src={filtersIcon} className={styles.icon} /> Фильтры
           </div>
         </div>
+        <Button color='secondary' variant={'outlined'} onClick={exportHandler}>Экспорт</Button>
       </div>
       <TableContainer>
         <Table stickyHeader>
