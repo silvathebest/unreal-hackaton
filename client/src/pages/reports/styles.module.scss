@@ -81,12 +81,14 @@
         flex-wrap: wrap;
         gap: 18px;
         padding: 0 18px;
-        height: calc(100vh - 122px);
+        height: auto;
+        max-height: calc(100vh - 122px);
         overflow: auto;
 
         .card {
-          width: 204px;
+          width: 212px;
           background: $white;
+          height: 182px;
           border: 1px solid $gray8;
           border-radius: 12px;
           box-sizing: border-box;
