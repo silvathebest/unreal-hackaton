@@ -84,7 +84,7 @@ export const ReportDetailTable = () => {
     setInputValue(event.target.value)
     setPage(1)
   }, [])
-  
+
   return (
     <div className={styles.tableWrapper}>
       <div className={styles.filters}>
@@ -109,6 +109,12 @@ export const ReportDetailTable = () => {
         <Table stickyHeader>
           <TableHead>
             <TableRow>
+              <TableCell>
+                <div className={styles.headerColumnContainer}>
+                  <ReactSVG src={standardIcon} className={styles.icon} />&nbsp;
+                  Стандарт
+                </div>
+              </TableCell>
               <TableCell>
                 <div className={styles.headerColumnContainer}>
                   <ReactSVG src={genderIcon} className={styles.icon} />&nbsp;
@@ -148,12 +154,6 @@ export const ReportDetailTable = () => {
               </TableCell>
               <TableCell>
                 <div className={styles.headerColumnContainer}>
-                  <ReactSVG src={standardIcon} className={styles.icon} />&nbsp;
-                  Стандарт
-                </div>
-              </TableCell>
-              <TableCell>
-                <div className={styles.headerColumnContainer}>
                   <ReactSVG src={diagnosisIcon} className={styles.icon} />&nbsp;
                   Диагноз
                 </div>
@@ -169,6 +169,18 @@ export const ReportDetailTable = () => {
           <TableBody>
             {reportDetails.map((item) => (
               <TableRow key={item.id} className={styles.row}>
+                <TableCell>
+                  {item.conformity === 1
+                    ?
+                    <div className={styles.standardOne}>Соответствует</div>
+                    :
+                    (item.conformity === 2
+                      ?
+                      <div className={styles.standardTwo}>Частично</div>
+                      :
+                      <div className={styles.standardThree}>Доп. назначения</div>
+                    )}
+                </TableCell>
                 <TableCell>
                   {item.gender === 'Муж' ? 'Мужской' : 'Женский'}
                 </TableCell>
