@@ -111,6 +111,12 @@ export const ReportDetailTable = () => {
             <TableRow>
               <TableCell>
                 <div className={styles.headerColumnContainer}>
+                  <ReactSVG src={standardIcon} className={styles.icon} />&nbsp;
+                  Стандарт
+                </div>
+              </TableCell>
+              <TableCell>
+                <div className={styles.headerColumnContainer}>
                   <ReactSVG src={genderIcon} className={styles.icon} />&nbsp;
                   Пол&nbsp;пациента
                 </div>
@@ -148,12 +154,6 @@ export const ReportDetailTable = () => {
               </TableCell>
               <TableCell>
                 <div className={styles.headerColumnContainer}>
-                  <ReactSVG src={standardIcon} className={styles.icon} />&nbsp;
-                  Стандарт
-                </div>
-              </TableCell>
-              <TableCell>
-                <div className={styles.headerColumnContainer}>
                   <ReactSVG src={diagnosisIcon} className={styles.icon} />&nbsp;
                   Диагноз
                 </div>
@@ -169,6 +169,18 @@ export const ReportDetailTable = () => {
           <TableBody>
             {reportDetails.map((item) => (
               <TableRow key={item.id} className={styles.row}>
+                <TableCell>
+                  {item.standard === 1
+                    ?
+                    <div className={styles.standardOne}>Соответствует</div>
+                    :
+                    (item.standard === 2
+                      ?
+                      <div className={styles.standardTwo}>Частично</div>
+                      :
+                      <div className={styles.standardThree}>Доп. назначения</div>
+                    )}
+                </TableCell>
                 <TableCell>
                   {item.gender === 'Муж' ? 'Мужской' : 'Женский'}
                 </TableCell>
@@ -190,18 +202,6 @@ export const ReportDetailTable = () => {
                 </TableCell>
                 <TableCell>
                   {moment(item.serviceDate).format('DD.MM.YYYY') + ' в ' + moment(item.serviceDate).format('hh:mm')}
-                </TableCell>
-                <TableCell>
-                  {item.standard === 1
-                    ?
-                    <div className={styles.standardOne}>Соответствует</div>
-                    :
-                    (item.standard === 2
-                      ?
-                      <div className={styles.standardTwo}>Частично</div>
-                      :
-                      <div className={styles.standardThree}>Доп. назначения</div>
-                    )}
                 </TableCell>
                 <TableCell>
                   <div className={styles.textEllipsis}>
