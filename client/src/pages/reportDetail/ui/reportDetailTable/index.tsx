@@ -55,7 +55,7 @@ export const ReportDetailTable = () => {
   }, [refetch, page, filter])
 
   useEffect(() => {
-    !currentPagesList.includes(page) && setCurrentPagesList(initRenderList(page))
+    currentPagesList.includes(page) ? null : setCurrentPagesList(initRenderList(page))
   }, [page])
 
   useEffect(() => setCurrentPagesList(initRenderList(page)), [reportDetailsCountPage])
