@@ -2,9 +2,14 @@ import {Column, ColumnConfig, Progress} from '@ant-design/charts'
 import React, {useEffect} from 'react'
 import {useDispatch} from 'react-redux'
 import {useParams} from 'react-router'
+import {
+  ConformityChart,
+  GetConformityChartDetail, useGetCardiologyChartDetail,
+  useGetConformityChartDetail,
+  useGetNeurologyChartDetail, useGetOtolaringologyChartDetail
+} from 'entities/сhartData'
 import {DonutPie} from 'features'
 import {Sidebar} from 'widgets'
-import {ConformityChart, GetConformityChartDetail, useGetConformityChartDetail} from '../../entities/confirmityChart'
 import styles from './styles.module.scss'
 import {ReportDetailTable} from './ui/reportDetailTable'
 
@@ -15,12 +20,15 @@ const ReportDetail = () => {
   const {refetch} = GetConformityChartDetail(Number(id), dispatch)
 
   const conformityChartData = useGetConformityChartDetail()
+  const neurologyChartData = useGetNeurologyChartDetail()
+  const cardiologyChartData = useGetCardiologyChartDetail()
+  const otolaringologyChartData = useGetOtolaringologyChartDetail()
 
   useEffect(() => {
     refetch()
   }, [id])
 
-  const renderTopCard = (conformityChartData:ConformityChart) => {
+  const renderTopCard = (conformityChartData:ConformityChart, heading:string) => {
     const pieData = [
       {
         type: 'Соответствует',
@@ -37,7 +45,7 @@ const ReportDetail = () => {
     ]
     return (
       <div className={styles.topInfoBlock}>
-        <div className={styles.cardTitle}>Соответствие стандарту</div>
+        <div className={styles.cardTitle}>{heading}</div>
 
         <div className={styles.pie}>
           <DonutPie data={pieData} />
@@ -91,13 +99,16 @@ const ReportDetail = () => {
 
       <div className={styles.workArea}>
         <div className={styles.pieBlock}>
-          {renderTopCard(conformityChartData)}
-        </div>
+          {renderTopCard(conformityChartData, 'Соответствие стандарту')}
+          {renderTopCard(neurologyChartData, 'Неврология')}
+          {renderTopCard(cardiologyChartData, 'Кардиология')}
+          {renderTopCard(otolaringologyChartData, 'Оториноларингология')}
 
-        <div className={styles.bottomInfoBlock}>
-          <div className={styles.cardTitle}>Соответствие стандарту</div>
-          <div className={styles.test}>
-            <DemoColumn />
+          <div className={styles.bottomInfoBlock}>
+            <div className={styles.cardTitle}>Соответствие стандарту</div>
+            <div className={styles.test}>
+              <DemoColumn />
+            </div>
           </div>
         </div>
         <ReportDetailTable />
@@ -109,14 +120,6 @@ const ReportDetail = () => {
 interface DemoProgressProps {
   color: string;
   percent: number;
-}
-
-interface DemoColumnProps {
-  datum: {
-    department: string,
-    sex: string,
-    patientsCount: string,
-  }
 }
 
 const DemoProgress:React.FC<DemoProgressProps> = ({color, percent}) => {
@@ -131,7 +134,6 @@ const DemoProgress:React.FC<DemoProgressProps> = ({color, percent}) => {
 
   return <Progress {...config} />
 }
-
 
 const DemoColumn = () => {
 

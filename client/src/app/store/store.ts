@@ -1,8 +1,13 @@
 import {configureStore} from '@reduxjs/toolkit'
-import {conformityChartModel} from 'entities/confirmityChart'
 import {reportModel} from 'entities/report'
 import {reportDetailModel} from 'entities/reportDetail'
 import {userModel} from 'entities/user'
+import {
+  cardiologyChartModel,
+  conformityChartModel,
+  neurologyChartModel,
+  otolaryngologyChartModel
+} from 'entities/сhartData'
 
 export const store = configureStore({
   reducer: {
@@ -10,6 +15,9 @@ export const store = configureStore({
     report: reportModel.reducer,
     reportDetail: reportDetailModel.reducer,
     conformityChart: conformityChartModel.reducer,
+    neurologyChart: neurologyChartModel.reducer,
+    cardiologyChart: cardiologyChartModel.reducer,
+    otolaringologyChart: otolaryngologyChartModel.reducer
   },
 })
 

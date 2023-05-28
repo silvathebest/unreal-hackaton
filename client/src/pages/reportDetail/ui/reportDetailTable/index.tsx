@@ -70,12 +70,12 @@ export const ReportDetailTable = () => {
         </div>
 
         {currentPagesList.map((number) => (
-            <div
-              className={`${(number === page ? `${styles.active}` : '')} ${styles.pageCell}`}
-              key={number}
-              onClick={() => setPage(number)}>{number}
-            </div>
-          )
+          <div
+            className={`${(number === page ? `${styles.active}` : '')} ${styles.pageCell}`}
+            key={number}
+            onClick={() => setPage(number)}>{number}
+          </div>
+        )
         )}
 
         <div
@@ -198,10 +198,10 @@ export const ReportDetailTable = () => {
                     <div className={styles.standardOne}>Соответствует</div>
                     :
                     (item.conformity === 2
-                        ?
-                        <div className={styles.standardTwo}>Частично</div>
-                        :
-                        <div className={styles.standardThree}>Доп. назначения</div>
+                      ?
+                      <div className={styles.standardTwo}>Частично</div>
+                      :
+                      <div className={styles.standardThree}>Доп. назначения</div>
                     )}
                 </TableCell>
                 <TableCell>
@@ -225,18 +225,6 @@ export const ReportDetailTable = () => {
                 </TableCell>
                 <TableCell>
                   {moment(item.serviceDate).format('DD.MM.YYYY') + ' в ' + moment(item.serviceDate).format('hh:mm')}
-                </TableCell>
-                <TableCell>
-                  {item.conformity === 1
-                    ?
-                    <div className={styles.standardOne}>Соответствует</div>
-                    :
-                    (item.conformity === 2
-                        ?
-                        <div className={styles.standardTwo}>Доп. назначения</div>
-                        :
-                        <div className={styles.standardThree}>Частично</div>
-                    )}
                 </TableCell>
                 <TableCell>
                   <div className={styles.textEllipsis}>

@@ -13,6 +13,8 @@
     .pieBlock {
       display: flex;
       flex-wrap: wrap;
+      min-height: 390px;
+      overflow: scroll;
     }
 
     .pie {
@@ -51,6 +53,7 @@
     .topInfoBlock {
       margin: 18px;
       width: 385px;
+      height: 332px;
       border: 1px solid $gray5;
       border-radius: 12px;
       color: $gray76;
@@ -98,7 +101,7 @@
     }
 
     .bottomInfoBlock {
-      width: 47%;
+      width: 50%;
       height: 230px;
       border: 1px solid $gray5;
       border-radius: 12px;
