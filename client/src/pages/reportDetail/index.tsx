@@ -24,11 +24,6 @@ const ReportDetail = () => {
   const cardiologyChartData = useGetCardiologyChartDetail()
   const otolaringologyChartData = useGetOtolaringologyChartDetail()
 
-  console.log({conformityChartData})
-  console.log({neurologyChartData})
-  console.log({cardiologyChartData})
-  console.log({otolaringologyChartData})
-
   useEffect(() => {
     refetch()
   }, [id])
