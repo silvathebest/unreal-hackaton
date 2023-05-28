@@ -47,7 +47,6 @@ export const GetConformityChartDetail = (reportId: number, dispatch: Dispatch) =
     () => axios.get(`/report/${reportId}`),
     {
       onSuccess: ({data}) => {
-        console.log('conformityChartData: ', data.conformityChart)
         dispatch(conformityChartModel.actions.addConformityChartData(data.conformityChart))
 
       },

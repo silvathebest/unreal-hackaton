@@ -170,11 +170,11 @@ export const ReportDetailTable = () => {
             {reportDetails.map((item) => (
               <TableRow key={item.id} className={styles.row}>
                 <TableCell>
-                  {item.standard === 1
+                  {item.conformity === 1
                     ?
                     <div className={styles.standardOne}>Соответствует</div>
                     :
-                    (item.standard === 2
+                    (item.conformity === 2
                       ?
                       <div className={styles.standardTwo}>Частично</div>
                       :
