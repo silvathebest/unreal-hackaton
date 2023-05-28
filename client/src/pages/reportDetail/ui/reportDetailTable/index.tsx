@@ -198,10 +198,10 @@ export const ReportDetailTable = () => {
                     <div className={styles.standardOne}>Соответствует</div>
                     :
                     (item.conformity === 2
-                        ?
-                        <div className={styles.standardTwo}>Частично</div>
-                        :
-                        <div className={styles.standardThree}>Доп. назначения</div>
+                      ?
+                      <div className={styles.standardTwo}>Частично</div>
+                      :
+                      <div className={styles.standardThree}>Доп. назначения</div>
                     )}
                 </TableCell>
                 <TableCell>
