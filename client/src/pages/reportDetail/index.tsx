@@ -105,7 +105,7 @@ const ReportDetail = () => {
           {renderTopCard(otolaringologyChartData, 'Оториноларингология')}
 
           <div className={styles.bottomInfoBlock}>
-            <div className={styles.cardTitle}>Соответствие стандарту</div>
+            <div className={styles.cardTitle}>Пациенты</div>
             <div className={styles.test}>
               <DemoColumn />
             </div>
