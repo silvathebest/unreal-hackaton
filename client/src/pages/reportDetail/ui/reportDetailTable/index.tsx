@@ -1,4 +1,4 @@
-import {Table, TableBody, TableCell, TableHead, TableRow} from '@mui/material'
+import {Table, TableBody, TableCell, TableHead, TableRow, Tooltip} from '@mui/material'
 import moment from 'moment/moment'
 import React, {useCallback, useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
@@ -70,12 +70,12 @@ export const ReportDetailTable = () => {
         </div>
 
         {currentPagesList.map((number) => (
-          <div
-            className={`${(number === page ? `${styles.active}` : '')} ${styles.pageCell}`}
-            key={number}
-            onClick={() => setPage(number)}>{number}
-          </div>
-        )
+            <div
+              className={`${(number === page ? `${styles.active}` : '')} ${styles.pageCell}`}
+              key={number}
+              onClick={() => setPage(number)}>{number}
+            </div>
+          )
         )}
 
         <div
@@ -198,10 +198,10 @@ export const ReportDetailTable = () => {
                     <div className={styles.standardOne}>Соответствует</div>
                     :
                     (item.conformity === 2
-                      ?
-                      <div className={styles.standardTwo}>Частично</div>
-                      :
-                      <div className={styles.standardThree}>Доп. назначения</div>
+                        ?
+                        <div className={styles.standardTwo}>Частично</div>
+                        :
+                        <div className={styles.standardThree}>Доп. назначения</div>
                     )}
                 </TableCell>
                 <TableCell>
@@ -231,11 +231,13 @@ export const ReportDetailTable = () => {
                     {item.diagnosis}
                   </div>
                 </TableCell>
-                <TableCell>
-                  <div className={styles.textEllipsis}>
-                    {item.appointments}
-                  </div>
-                </TableCell>
+                <Tooltip title={item.appointments}>
+                  <TableCell>
+                    <div className={styles.textEllipsis}>
+                      {item.appointments}
+                    </div>
+                  </TableCell>
+                </Tooltip>
               </TableRow>
             ))}
           </TableBody>
