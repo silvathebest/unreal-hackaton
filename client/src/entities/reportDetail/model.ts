@@ -1,5 +1,5 @@
 import {createSelector, createSlice, Dispatch, PayloadAction} from '@reduxjs/toolkit'
-import axios, {AxiosResponse} from 'axios'
+import axios, {AxiosRequestConfig, AxiosResponse} from 'axios'
 import {useQuery} from 'react-query'
 import {useSelector} from 'react-redux'
 import {ErrorResponsesType} from 'shared/types'
@@ -15,6 +15,7 @@ export type ReportDetail = {
   conformity: number
   appointments: string
   serviceDate: string
+  reportId: number
 }
 
 type InitialStateProps = {
@@ -34,7 +35,7 @@ export const reportDetailModel = createSlice({
     addReportDetails: (state, {payload}: PayloadAction<{data: ReportDetail[], count: number}>) => {
       state.data = payload.data
       state.count = payload.count
-    },
+    }
   }
 })
 
@@ -42,7 +43,11 @@ export const {} = reportDetailModel.actions
 
 export const limitReportDetail = 50
 
-export const GetReportDetail = ({filter, page, reportId}: {filter: string, page: number, reportId: number}, dispatch: Dispatch) =>
+export const GetReportDetail = ({filter, page, reportId}: {
+  filter: string,
+  page: number,
+  reportId: number
+}, dispatch: Dispatch) =>
   useQuery<AxiosResponse<{data: ReportDetail[], count: number}>, ErrorResponsesType>(
     'GetReportDetail',
     () => axios.get('/reportDetail', {params: {filter: filter || null, page, limit: limitReportDetail, reportId}}),
@@ -55,9 +60,32 @@ export const GetReportDetail = ({filter, page, reportId}: {filter: string, page:
       },
       enabled: false,
       refetchOnWindowFocus: false,
-      retry: false,
+      retry: false
     }
   )
+
+export const ExportReport = async (id: number) => {
+  // Its important to set the 'Content-Type': 'blob' and responseType:'arraybuffer'.
+  const headers = {'Content-Type': 'blob'}
+  const config: AxiosRequestConfig = {method: 'GET', url: `report/export/${id}`, responseType: 'arraybuffer', headers}
+
+  try {
+    const response = await axios(config)
+
+    const outputFilename = `${Date.now()}.xlsx`
+
+    // If you want to download file automatically using link attribute.
+    const url = URL.createObjectURL(new Blob([response.data]))
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', outputFilename)
+    document.body.appendChild(link)
+    link.click()
+    link.remove()
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 export const useGetReportDetailsData = () => useSelector(
   createSelector(
