@@ -69,7 +69,7 @@ const ReportDetail = () => {
 
           <div className={styles.row}>
             <div className={styles.title}>Соответствует</div>
-            <DemoProgress color='#5B8FF9' percent={conformityChartData.additionalAppointmentsPercent / 100} />
+            <DemoProgress color='#5B8FF9' percent={conformityChartData.correspondingPercent / 100} />
             <div className={styles.value}>{conformityChartData.correspondingCount}</div>
             <div className={styles.percentageBlue}>{conformityChartData.correspondingPercent}%</div>
           </div>
