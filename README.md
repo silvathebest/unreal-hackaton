@@ -9,3 +9,6 @@
 * `npm run dev`
 * cd client 
 * `npm start`
+
+# Backend documentation
+http://localhost:8000/api/docs/

@@ -4,7 +4,13 @@ import React, {useCallback, useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {useParams} from 'react-router'
 import {ReactSVG} from 'react-svg'
-import {GetReportDetail, useGetReportDetailsCountPage, useGetReportDetailsData} from 'entities/reportDetail'
+import {
+  ExportReport,
+  GetReportDetail,
+  useGetReportDetailsCountPage,
+  useGetReportDetailsData
+} from 'entities/reportDetail'
+import {LoadingButton} from 'features'
 import {useDebounce} from 'shared/hooks'
 import {TableContainer} from 'shared/overrideMui'
 import appointmentIcon from './icon/appointment.svg'
@@ -27,6 +33,7 @@ export const ReportDetailTable = () => {
 
   const [page, setPage] = useState(1)
   const [inputValue, setInputValue] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
   const filter = useDebounce(inputValue)
 
   const {refetch} = GetReportDetail({filter, reportId: Number(id), page}, dispatch)
@@ -44,11 +51,11 @@ export const ReportDetailTable = () => {
   const [currentPagesList, setCurrentPagesList] = useState<number[]>([])
 
   useEffect(() => {
-    refetch()
+    refetch().catch(console.error)
   }, [refetch, page, filter])
 
   useEffect(() => {
-    currentPagesList.includes(page) && setCurrentPagesList(initRenderList(page))
+    currentPagesList.includes(page) ? null : setCurrentPagesList(initRenderList(page))
   }, [page])
 
   useEffect(() => setCurrentPagesList(initRenderList(page)), [reportDetailsCountPage])
@@ -63,12 +70,12 @@ export const ReportDetailTable = () => {
         </div>
 
         {currentPagesList.map((number) => (
-          <div
-            className={`${(number === page ? `${styles.active}` : '')} ${styles.pageCell}`}
-            key={number}
-            onClick={() => setPage(number)}>{number}
-          </div>
-        )
+            <div
+              className={`${(number === page ? `${styles.active}` : '')} ${styles.pageCell}`}
+              key={number}
+              onClick={() => setPage(number)}>{number}
+            </div>
+          )
         )}
 
         <div
@@ -84,6 +91,15 @@ export const ReportDetailTable = () => {
     setInputValue(event.target.value)
     setPage(1)
   }, [])
+
+  const exportHandler = () => {
+    if (isLoading || !reportDetails[0].reportId) return
+    setIsLoading(true)
+
+    ExportReport(reportDetails[0].reportId)
+      .catch(console.error)
+      .finally(() => setIsLoading(false))
+  }
 
   return (
     <div className={styles.tableWrapper}>
@@ -104,6 +120,13 @@ export const ReportDetailTable = () => {
             <ReactSVG src={filtersIcon} className={styles.icon} /> Фильтры
           </div>
         </div>
+        <LoadingButton
+          variant='contained'
+          isLoading={isLoading}
+          onClick={exportHandler}
+        >
+          Экспорт
+        </LoadingButton>
       </div>
       <TableContainer>
         <Table stickyHeader>

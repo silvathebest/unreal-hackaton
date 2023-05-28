@@ -9,7 +9,7 @@ import {
   GetConformityChartDetail, useGetCardiologyChartDetail,
   useGetConformityChartDetail,
   useGetNeurologyChartDetail, useGetOtolaringologyChartDetail
-} from '../../entities/сhartData'
+} from 'entities/сhartData'
 import styles from './styles.module.scss'
 import {ReportDetailTable} from './ui/reportDetailTable'
 
