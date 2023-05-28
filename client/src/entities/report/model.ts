@@ -3,6 +3,7 @@ import axios, {AxiosResponse} from 'axios'
 import {useQuery} from 'react-query'
 import {useSelector} from 'react-redux'
 import {ErrorResponsesType} from 'shared/types'
+import {ConformityChart} from '../confirmityChart'
 
 export const UploadReport = (formData: FormData): Promise<AxiosResponse<{reportId: number}, null>> =>
   axios.post('report/upload', formData)
@@ -18,7 +19,9 @@ export type Report = {
   updatedAt: string
   userId: string
   status: number
-  count: number
+  count: number,
+
+  conformityChart: ConformityChart
 }
 
 type InitialStateProps = {
@@ -35,7 +38,7 @@ export const reportModel = createSlice({
   reducers: {
     addReports: (state, {payload}: PayloadAction<Report[]>) => {
       state.data = payload
-    }
+    },
   }
 })
 

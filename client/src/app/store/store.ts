@@ -1,4 +1,5 @@
 import {configureStore} from '@reduxjs/toolkit'
+import {conformityChartModel} from 'entities/confirmityChart'
 import {reportModel} from 'entities/report'
 import {reportDetailModel} from 'entities/reportDetail'
 import {userModel} from 'entities/user'
@@ -8,6 +9,7 @@ export const store = configureStore({
     user: userModel.reducer,
     report: reportModel.reducer,
     reportDetail: reportDetailModel.reducer,
+    conformityChart: conformityChartModel.reducer,
   },
 })
 

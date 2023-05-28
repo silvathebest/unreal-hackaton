@@ -9,16 +9,111 @@
     flex-direction: column;
     flex: 1;
     width: calc(100% - 300px);
+
+    .pieBlock {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .pie {
+      display: flex;
+      padding: 18px;
+      justify-content: space-between;
+
+      .sideInfo {
+        list-style: none;
+        text-align: right;
+
+        .infoItem {
+          display: flex;
+          flex-direction: column;
+          margin-top: 13px;
+
+          .value {
+            font-size: 18px;
+            font-weight: bold;
+            color: $gray76;
+          }
+
+          .signature {
+            font-size: 14px;
+            font-weight: normal;
+            color: $gray50;
+          }
+        }
+
+        .infoItem:first-child {
+          margin-top: 0;
+        }
+      }
+    }
+
+    .topInfoBlock {
+      margin: 18px;
+      width: 385px;
+      border: 1px solid $gray5;
+      border-radius: 12px;
+      color: $gray76;
+      font-size: 14px;
+
+      .cardTitle {
+        padding: 12px 18px;
+        border-bottom: 1px solid $gray5;
+      }
+
+      .percentageBlue {
+        color: $primary;
+        font-weight: 600;
+      }
+
+      .percentageYellow {
+        color: #FE996E;
+        font-weight: 600;
+      }
+
+      .percentageRed {
+        color: #FE7991;
+        font-weight: 600;
+      }
+
+      .bottomData {
+        margin-left: 18px;
+
+        .row {
+          display: flex;
+          margin-bottom: 18px;
+        }
+
+        .title {
+          width: 120px;
+          margin-right: 10px;
+        }
+
+        .value {
+          width: 50px;
+          text-align: right;
+          margin: 0 12px;
+        }
+      }
+    }
+
+    .bottomInfoBlock {
+      width: 47%;
+      height: 230px;
+      border: 1px solid $gray5;
+      border-radius: 12px;
+      color: $gray76;
+      font-size: 14px;
+      margin-left: 18px;
+
+      .cardTitle {
+        padding: 12px 18px;
+        border-bottom: 1px solid $gray5;
+      }
+      .test {
+        height: 170px;
+        padding: 10px;
+      }
+    }
   }
 }
-
-.test {
-  width: 146px;
-  height: 146px;
-}
-
-.test2 {
-  width: 150px;
-  height: 20px;
-}
-

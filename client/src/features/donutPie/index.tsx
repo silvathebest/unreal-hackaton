@@ -12,6 +12,8 @@ export const DonutPie: FC<DonutPieProps> = ({data}) => {
   const config = {
     padding: 0,
     data,
+    width: 146,
+    height: 146,
     angleField: 'value',
     colorField: 'type',
     radius: 1,
