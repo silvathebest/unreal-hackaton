@@ -1,6 +1,6 @@
 import Router from 'express'
 import {uploadReport} from '../controllers/uploadController'
-import {checkReportStatus, getAll} from '../controllers/reportController'
+import {checkReportStatus, getAll, getReport} from '../controllers/reportController'
 import authMiddleware from '../middleware/authMiddleware'
 
 const router = Router()
@@ -67,5 +67,30 @@ router.post('/upload', authMiddleware, uploadReport)
  */
 router.get('/status/:id', authMiddleware, checkReportStatus)
 router.get('/', authMiddleware, getAll)
+/**
+ * @openapi
+ * tags:
+ *  name: Report
+ *  description: The report managing API
+ * /api/report/{reportId}:
+ *   get:
+ *     tags: [Report]
+ *     description: get one report
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *          application/json:
+ *            schema:
+ *                 type: object
+ *                 properties:
+ *                   id:
+ *                     type: integer
+ *                     description: The user ID.
+ *                   username:
+ *                     type: string
+ *                     description: The user name.
+ */
+router.get('/:id', authMiddleware, getReport)
 
 export default router

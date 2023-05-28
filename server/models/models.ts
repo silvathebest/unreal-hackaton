@@ -7,14 +7,14 @@ export interface UserModel extends Model<InferAttributes<UserModel>, InferCreati
   password: string
 }
 
+export enum ConformityTypes {
+  CORRESPONDING =1,
+  ADDITIONAL,
+  PARTIALLY
+}
 
-export const User = sequelize.define<UserModel>('users', {
-  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  login: {type: DataTypes.STRING, unique: true},
-  password: {type: DataTypes.STRING}
-})
 
-interface ReportModel extends Model<InferAttributes<ReportModel>, InferCreationAttributes<ReportModel>> {
+export interface ReportModel extends Model<InferAttributes<ReportModel>, InferCreationAttributes<ReportModel>> {
   id: CreationOptional<number>
   name: string
   icon: string
@@ -22,26 +22,9 @@ interface ReportModel extends Model<InferAttributes<ReportModel>, InferCreationA
   status: number
   count: number
   uploadStatus: boolean,
+  conformityChart: object
 }
 
-
-export const Report = sequelize.define<ReportModel>('reports', {
-  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
-  name: {type: DataTypes.STRING},
-  icon: {type: DataTypes.STRING, allowNull: true},
-  status: {type: DataTypes.INTEGER, defaultValue: 1},
-  count: {type: DataTypes.INTEGER, defaultValue: 0},
-  uploadStatus: {type: DataTypes.BOOLEAN},
-  userId: {
-    type: DataTypes.INTEGER, references: {
-      model: User,
-      key: 'id'
-    }
-  }
-})
-
-User.hasMany(Report)
-Report.belongsTo(User)
 
 interface ReportDataModel extends Model<InferAttributes<ReportDataModel>, InferCreationAttributes<ReportDataModel>> {
   id: CreationOptional<number>,
@@ -56,6 +39,31 @@ interface ReportDataModel extends Model<InferAttributes<ReportDataModel>, InferC
   conformity: number,
   reportId: number
 }
+
+export const User = sequelize.define<UserModel>('users', {
+  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+  login: {type: DataTypes.STRING, unique: true},
+  password: {type: DataTypes.STRING}
+})
+
+export const Report = sequelize.define<ReportModel>('reports', {
+  id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+  name: {type: DataTypes.STRING},
+  icon: {type: DataTypes.STRING, allowNull: true},
+  status: {type: DataTypes.INTEGER, defaultValue: 1},
+  count: {type: DataTypes.INTEGER, defaultValue: 0},
+  uploadStatus: {type: DataTypes.BOOLEAN},
+  conformityChart: {type: DataTypes.JSONB},
+  userId: {
+    type: DataTypes.INTEGER, references: {
+      model: User,
+      key: 'id'
+    }
+  }
+})
+
+User.hasMany(Report)
+Report.belongsTo(User)
 
 
 export const ReportData = sequelize.define<ReportDataModel>('reports_data', {
