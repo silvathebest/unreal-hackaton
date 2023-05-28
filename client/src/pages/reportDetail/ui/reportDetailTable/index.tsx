@@ -6,7 +6,7 @@ import {useParams} from 'react-router'
 import {ReactSVG} from 'react-svg'
 import {GetReportDetail, useGetReportDetailsCountPage, useGetReportDetailsData} from 'entities/reportDetail'
 import {useDebounce} from 'shared/hooks'
-import {Button, TableContainer} from 'shared/overrideMui'
+import {TableContainer} from 'shared/overrideMui'
 import appointmentIcon from './icon/appointment.svg'
 import arrowIcon from './icon/arrow.svg'
 import clientDateBirthIcon from './icon/clientDateBirth.svg'
@@ -33,8 +33,8 @@ export const ReportDetailTable = () => {
   const reportDetails = useGetReportDetailsData()
   const reportDetailsCountPage = useGetReportDetailsCountPage()
 
-  const initRenderList = (initPage:number):number[] => {
-    const initialPages:number[] = []
+  const initRenderList = (initPage: number): number[] => {
+    const initialPages: number[] = []
     for (let i = initPage; i <= reportDetailsCountPage && i <= page + 6; i++) {
       initialPages.push(i)
     }
@@ -48,13 +48,13 @@ export const ReportDetailTable = () => {
   }, [refetch, page, filter])
 
   useEffect(() => {
-    currentPagesList.includes(page) ? null : setCurrentPagesList(initRenderList(page))
+    currentPagesList.includes(page) && setCurrentPagesList(initRenderList(page))
   }, [page])
 
   useEffect(() => setCurrentPagesList(initRenderList(page)), [reportDetailsCountPage])
 
-  const renderPaginate = (currentPagesList:number[]) => {
-    return(
+  const renderPaginate = (currentPagesList: number[]) => {
+    return (
       <div className={styles.paginate}>
         <div
           className={`${(page === 1 ? `${styles.disabled}` : '')} ${styles.pageCell} ${styles.previousPageButton}`}
@@ -80,11 +80,11 @@ export const ReportDetailTable = () => {
     )
   }
 
-  const onChangeHandler = useCallback((event:React.ChangeEvent<HTMLInputElement>) => {
+  const onChangeHandler = useCallback((event: React.ChangeEvent<HTMLInputElement>) => {
     setInputValue(event.target.value)
     setPage(1)
   }, [])
-
+  
   return (
     <div className={styles.tableWrapper}>
       <div className={styles.filters}>
@@ -192,15 +192,15 @@ export const ReportDetailTable = () => {
                   {moment(item.serviceDate).format('DD.MM.YYYY') + ' в ' + moment(item.serviceDate).format('hh:mm')}
                 </TableCell>
                 <TableCell>
-                  {item.standard === 1
+                  {item.conformity === 1
                     ?
                     <div className={styles.standardOne}>Соответствует</div>
                     :
-                    (item.standard === 2
+                    (item.conformity === 2
                       ?
-                      <div className={styles.standardTwo}>Частично</div>
+                      <div className={styles.standardTwo}>Доп. назначения</div>
                       :
-                      <div className={styles.standardThree}>Доп. назначения</div>
+                      <div className={styles.standardThree}>Частично</div>
                     )}
                 </TableCell>
                 <TableCell>

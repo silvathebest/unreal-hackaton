@@ -84,7 +84,7 @@
   flex: 1;
   background: $primary;
   border-radius: 12px;
-  padding: 28px 0;
+  padding: 28px 10px;
 
   .previewWrapper {
     max-width: 600px;
@@ -118,6 +118,7 @@
     .background {
       margin-top: 100px;
       width: 600px;
+      border-radius: 20px;
     }
 
     .footer {
@@ -143,5 +144,11 @@
         height: 35.5px;
       }
     }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .preview {
+    display: none;
   }
 }

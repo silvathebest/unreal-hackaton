@@ -12,7 +12,7 @@ export type ReportDetail = {
   idMKB: string
   diagnosis: string
   position: string
-  standard: number
+  conformity: number
   appointments: string
   serviceDate: string
 }
@@ -49,7 +49,7 @@ export const GetReportDetail = ({filter, page, reportId}: {filter: string, page:
     {
       onSuccess: ({data}) => {
         dispatch(reportDetailModel.actions.addReportDetails({
-          data: data.data.map((item) => ({...item, standard: Math.floor(Math.random() * 3 + 1)})),
+          data: data.data,
           count: data.count
         }))
       },
