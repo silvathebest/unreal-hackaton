@@ -1,7 +1,8 @@
 import {Delete20Regular} from '@fluentui/react-icons'
 import {Modal} from '@mui/material'
 import React, {ChangeEvent, FC, FormEvent, useCallback, useEffect, useRef, useState} from 'react'
-import {CheckReportStatus, UploadReport} from 'entities/report'
+import {useDispatch} from 'react-redux'
+import {CheckReportStatus, ReportGetAll, UploadReport} from 'entities/report'
 import {LoadingButton} from '../loadingButton'
 import xlsxImg from './img/xlsx.png'
 import styles from './styles.module.scss'
@@ -12,12 +13,14 @@ type DownloadReportProps = {
 }
 
 export const DownloadReport: FC<DownloadReportProps> = ({isOpen, onClose}) => {
+  const dispatch = useDispatch()
   const inputFileRef = useRef<HTMLInputElement | null>(null)
   const [file, setFile] = useState<File | null>(null)
   const [title, setTitle] = useState('')
   const [isLoading, setIsLoading] = useState(false)
   const [reportId, setReportId] = useState<number | null>(null)
   const [error, setError] = useState('')
+  const {refetch} = ReportGetAll('', dispatch)
 
   const onChangeFile = (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault()
@@ -39,7 +42,10 @@ export const DownloadReport: FC<DownloadReportProps> = ({isOpen, onClose}) => {
     formData.append('icon', '❤️')
     setIsLoading(true)
     UploadReport(formData)
-      .then(({data}) => setReportId(data.reportId))
+      .then(({data}) => {
+        setReportId(data.reportId)
+        refetch().catch(console.error)
+      })
       .catch((e) => {
         console.error(e)
         onErrorHandler(e)
