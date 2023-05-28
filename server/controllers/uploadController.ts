@@ -3,6 +3,7 @@ import {readFile, utils} from 'xlsx'
 import moment from 'moment'
 import {Report, ReportData, User} from '../models/models'
 import {UserRequest} from '../middleware/authMiddleware'
+import * as fs from 'fs'
 
 const replaceKeys = (object: Record<string, string>, old_key: string, new_key: string) => {
   delete Object.assign(object, {[new_key]: object[old_key]})[old_key]
@@ -21,7 +22,10 @@ export const uploadReport = async (req: Request, res: Response) => {
     }
 
     // @ts-ignore
-    file.mv('./static/' + file.name)
+    const filePath = `./static/${new Date().toJSON()}+${file.name}`
+
+    // @ts-ignore
+    file.mv(filePath)
     // @ts-ignore
     const workbook = readFile('./static/' + file.name)
     const workSheet = workbook.Sheets[workbook.SheetNames[0]]
@@ -61,12 +65,15 @@ export const uploadReport = async (req: Request, res: Response) => {
       item.serviceDate = moment(item.serviceDate, 'DD.MM.YYYY', 'ru').toJSON()
       // @ts-ignore
       item.reportId = report.id
+      // @ts-ignore
+      item.conformity = Math.floor(Math.random() * 3 + 1)
     }
 
     // @ts-ignore
     await ReportData.bulkCreate(json)
     await report.update({uploadStatus: true})
 
+    fs.unlinkSync(filePath)
     return
   } catch (err) {
     return res.status(200).json({
@@ -75,25 +82,4 @@ export const uploadReport = async (req: Request, res: Response) => {
       message: 'Internal server error'
     })
   }
-}
-
-export const checkReportStatus = async (req: Request, res: Response) => {
-  const reportId = req.params.id
-
-  if (!reportId) return res.status(400).json({
-    status: 'failed',
-    code: '400',
-    message: 'No query params'
-  })
-
-  const report = await Report.findOne({where: {id: Number(reportId)}})
-
-  if (!report) return res.status(400).json({
-    status: 'failed',
-    code: '400',
-    message: 'No report with current id'
-  })
-
-  return res.status(200)
-    .send({status: report.uploadStatus ? 'created' : 'in-progress'})
 }
