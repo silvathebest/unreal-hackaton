@@ -7,10 +7,16 @@ export interface UserModel extends Model<InferAttributes<UserModel>, InferCreati
   password: string
 }
 
-export enum ConformityTypes {
-  CORRESPONDING =1,
+export enum ConformityEnum {
+  CORRESPONDING = 1,
   ADDITIONAL,
   PARTIALLY
+}
+
+export enum PositionEnum {
+  CARDIOLOGY = 'врач-кардиолог',
+  NEUROLOGY = 'врач-невролог',
+  OTOLARYNGOLOGY = 'врач-оториноларинголог'
 }
 
 
@@ -22,7 +28,10 @@ export interface ReportModel extends Model<InferAttributes<ReportModel>, InferCr
   status: number
   count: number
   uploadStatus: boolean,
-  conformityChart: object
+  conformityChart: object,
+  neurologyChart: object,
+  cardiologyChart: object,
+  otolaryngologyChart: object
 }
 
 
@@ -54,6 +63,9 @@ export const Report = sequelize.define<ReportModel>('reports', {
   count: {type: DataTypes.INTEGER, defaultValue: 0},
   uploadStatus: {type: DataTypes.BOOLEAN},
   conformityChart: {type: DataTypes.JSONB},
+  neurologyChart: {type: DataTypes.JSONB},
+  cardiologyChart: {type: DataTypes.JSONB},
+  otolaryngologyChart: {type: DataTypes.JSONB},
   userId: {
     type: DataTypes.INTEGER, references: {
       model: User,

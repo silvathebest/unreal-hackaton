@@ -1,5 +1,4 @@
 import employeesIcon from './img/employees.svg'
-import mailIcon from './img/mail.svg'
 import notesIcon from './img/notes.svg'
 import notificationsIcon from './img/notifications.svg'
 import reportsIcon from './img/reports.svg'
@@ -13,20 +12,20 @@ export type SidebarItem = {
   notice?: number
 }
 
-type sidebarKey = 'reports' | 'tasks' | 'notifications' | 'notes' | 'mail' | 'employees'
+type sidebarKey = 'reports' | 'tasks' | 'notifications' | 'notes' | 'employees'
 
 export const sidebarItems: Record<sidebarKey, SidebarItem> = {
   reports: {
     key: 1,
     label: 'Отчеты',
     to: '/reports',
-    icon: reportsIcon,
+    icon: reportsIcon
   },
   tasks: {
     key: 2,
     label: 'Задачи',
     to: '/tasks',
-    icon: tasksIcon,
+    icon: tasksIcon
   },
   notifications: {
     key: 3,
@@ -39,20 +38,14 @@ export const sidebarItems: Record<sidebarKey, SidebarItem> = {
     key: 4,
     label: 'Заметки',
     to: '/notes',
-    icon: notesIcon,
-  },
-  mail: {
-    key: 5,
-    label: 'Почта',
-    to: '/mail',
-    icon: mailIcon,
+    icon: notesIcon
   },
   employees: {
-    key: 6,
+    key: 5,
     label: 'Сотрудники',
     to: '/employees',
-    icon: employeesIcon,
-  },
+    icon: employeesIcon
+  }
 }
 
 export const sidebarList = () => Object.values(sidebarItems)
@@ -69,26 +62,26 @@ export const recentlyAddedItems = [
   {
     key: 7,
     name: 'Киреева А.Н.',
-    to: '/home',
+    to: '/home'
   },
   {
     key: 8,
     name: 'Лаптев Н.Г.',
-    to: '/home',
+    to: '/home'
   },
   {
     key: 9,
     name: 'Иванов С.Р.',
-    to: '/home',
+    to: '/home'
   },
   {
     key: 10,
     name: 'Приемное отделение',
-    to: '/home',
+    to: '/home'
   },
   {
     key: 11,
     name: 'Отчет за 2022',
-    to: '/home',
+    to: '/home'
   }
 ]

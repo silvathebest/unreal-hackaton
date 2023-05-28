@@ -63,8 +63,32 @@ export const getReport = async (req: Request, res: Response) => {
     message: 'No report with current id'
   })
 
-  const {id, name, status, uploadStatus, count, conformityChart, userId, icon} = report
+  const {
+    id,
+    name,
+    status,
+    uploadStatus,
+    count,
+    conformityChart,
+    cardiologyChart,
+    otolaryngologyChart,
+    neurologyChart,
+    userId,
+    icon
+  } = report
 
 
-  return res.status(200).json({id, name, status, uploadStatus, count, conformityChart, userId, icon} as ReportModel)
+  return res.status(200).json({
+    id,
+    name,
+    status,
+    uploadStatus,
+    count,
+    conformityChart,
+    cardiologyChart,
+    otolaryngologyChart,
+    neurologyChart,
+    userId,
+    icon
+  } as ReportModel)
 }
