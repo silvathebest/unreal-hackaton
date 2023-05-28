@@ -12,3 +12,9 @@
 
 # Backend documentation
 http://localhost:8000/api/docs/
+
+# Deploy frontend
+https://hackaton-frontend.onrender.com/
+
+# Deploy backend
+https://hackaton-qn2w.onrender.com/
