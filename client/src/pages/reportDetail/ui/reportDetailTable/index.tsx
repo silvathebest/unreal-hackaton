@@ -55,7 +55,7 @@ export const ReportDetailTable = () => {
   }, [refetch, page, filter])
 
   useEffect(() => {
-    currentPagesList.includes(page) && setCurrentPagesList(initRenderList(page))
+    !currentPagesList.includes(page) && setCurrentPagesList(initRenderList(page))
   }, [page])
 
   useEffect(() => setCurrentPagesList(initRenderList(page)), [reportDetailsCountPage])
@@ -70,12 +70,12 @@ export const ReportDetailTable = () => {
         </div>
 
         {currentPagesList.map((number) => (
-          <div
-            className={`${(number === page ? `${styles.active}` : '')} ${styles.pageCell}`}
-            key={number}
-            onClick={() => setPage(number)}>{number}
-          </div>
-        )
+            <div
+              className={`${(number === page ? `${styles.active}` : '')} ${styles.pageCell}`}
+              key={number}
+              onClick={() => setPage(number)}>{number}
+            </div>
+          )
         )}
 
         <div
@@ -198,10 +198,10 @@ export const ReportDetailTable = () => {
                     <div className={styles.standardOne}>Соответствует</div>
                     :
                     (item.conformity === 2
-                      ?
-                      <div className={styles.standardTwo}>Частично</div>
-                      :
-                      <div className={styles.standardThree}>Доп. назначения</div>
+                        ?
+                        <div className={styles.standardTwo}>Частично</div>
+                        :
+                        <div className={styles.standardThree}>Доп. назначения</div>
                     )}
                 </TableCell>
                 <TableCell>
@@ -232,10 +232,10 @@ export const ReportDetailTable = () => {
                     <div className={styles.standardOne}>Соответствует</div>
                     :
                     (item.conformity === 2
-                      ?
-                      <div className={styles.standardTwo}>Доп. назначения</div>
-                      :
-                      <div className={styles.standardThree}>Частично</div>
+                        ?
+                        <div className={styles.standardTwo}>Доп. назначения</div>
+                        :
+                        <div className={styles.standardThree}>Частично</div>
                     )}
                 </TableCell>
                 <TableCell>
