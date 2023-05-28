@@ -183,6 +183,25 @@ router.get('/', authMiddleware, getAll)
  */
 router.get('/:id', authMiddleware, getReport)
 
+
+/**
+ * @openapi
+ * tags:
+ *  name: Report
+ *  description: The report managing API
+ * /api/report/export/{reportId}:
+ *   get:
+ *     tags: [Report]
+ *     description: get excel file report
+ *     responses:
+ *       200:
+ *         description: OK
+ *         content:
+ *          application/xlsx:
+ *            schema:
+ *                 type: string
+ *                 format: binary
+ */
 router.get('/export/:id', authMiddleware, exportReport)
 
 export default router
