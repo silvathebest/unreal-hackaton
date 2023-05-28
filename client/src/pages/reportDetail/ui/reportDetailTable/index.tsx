@@ -4,9 +4,15 @@ import React, {useCallback, useEffect, useState} from 'react'
 import {useDispatch} from 'react-redux'
 import {useParams} from 'react-router'
 import {ReactSVG} from 'react-svg'
-import {GetReportDetail, useGetReportDetailsCountPage, useGetReportDetailsData} from 'entities/reportDetail'
+import {
+  ExportReport,
+  GetReportDetail,
+  useGetReportDetailsCountPage,
+  useGetReportDetailsData
+} from 'entities/reportDetail'
+import {LoadingButton} from 'features'
 import {useDebounce} from 'shared/hooks'
-import {Button, TableContainer} from 'shared/overrideMui'
+import {TableContainer} from 'shared/overrideMui'
 import appointmentIcon from './icon/appointment.svg'
 import arrowIcon from './icon/arrow.svg'
 import clientDateBirthIcon from './icon/clientDateBirth.svg'
@@ -87,9 +93,12 @@ export const ReportDetailTable = () => {
   }, [])
 
   const exportHandler = () => {
-    if (isLoading) return
+    if (isLoading || !reportDetails[0].reportId) return
     setIsLoading(true)
 
+    ExportReport(reportDetails[0].reportId)
+      .catch(console.error)
+      .finally(() => setIsLoading(false))
   }
 
   return (
@@ -111,7 +120,13 @@ export const ReportDetailTable = () => {
             <ReactSVG src={filtersIcon} className={styles.icon} /> Фильтры
           </div>
         </div>
-        <Button color='secondary' variant={'outlined'} onClick={exportHandler}>Экспорт</Button>
+        <LoadingButton
+          variant='contained'
+          isLoading={isLoading}
+          onClick={exportHandler}
+        >
+          Экспорт
+        </LoadingButton>
       </div>
       <TableContainer>
         <Table stickyHeader>
