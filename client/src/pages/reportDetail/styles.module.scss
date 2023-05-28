@@ -14,7 +14,7 @@
       display: flex;
       flex-wrap: wrap;
       min-height: 390px;
-      overflow: scroll;
+      overflow-y: overlay;
     }
 
     .pie {

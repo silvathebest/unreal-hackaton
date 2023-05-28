@@ -52,6 +52,7 @@ export const checkReportStatus = async (req: Request, res: Response) => {
 }
 
 export const getReport = async (req: Request, res: Response) => {
+  const typedReq = req as UserRequest
   const reportId = req.params.id
   if (!reportId) return res.status(400).json({
     status: 'failed',
@@ -59,7 +60,7 @@ export const getReport = async (req: Request, res: Response) => {
     message: 'No query params'
   })
 
-  const report = await Report.findOne({where: {id: Number(reportId)}})
+  const report = await Report.findOne({where: {id: Number(reportId), userId: typedReq.user.id}})
 
   if (!report) return res.status(400).json({
     status: 'failed',
@@ -98,6 +99,7 @@ export const getReport = async (req: Request, res: Response) => {
 }
 
 export const exportReport = async (req: Request, res: Response) => {
+  const typedReq = req as UserRequest
   const reportId = Number(req.params.id)
 
   if (!reportId) return res.status(400).json({
@@ -106,7 +108,7 @@ export const exportReport = async (req: Request, res: Response) => {
     message: 'No query params'
   })
 
-  const report = await Report.findOne({where: {id: Number(reportId)}})
+  const report = await Report.findOne({where: {id: Number(reportId), userId: typedReq.user.id}})
 
   if (!report) return res.status(400).json({
     status: 'failed',
