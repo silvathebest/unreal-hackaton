@@ -204,18 +204,6 @@ export const ReportDetailTable = () => {
                   {moment(item.serviceDate).format('DD.MM.YYYY') + ' в ' + moment(item.serviceDate).format('hh:mm')}
                 </TableCell>
                 <TableCell>
-                  {item.conformity === 1
-                    ?
-                    <div className={styles.standardOne}>Соответствует</div>
-                    :
-                    (item.conformity === 2
-                      ?
-                      <div className={styles.standardTwo}>Доп. назначения</div>
-                      :
-                      <div className={styles.standardThree}>Частично</div>
-                    )}
-                </TableCell>
-                <TableCell>
                   <div className={styles.textEllipsis}>
                     {item.diagnosis}
                   </div>

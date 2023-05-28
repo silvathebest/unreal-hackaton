@@ -3,7 +3,12 @@ import axios, {AxiosResponse} from 'axios'
 import {useQuery} from 'react-query'
 import {useSelector} from 'react-redux'
 import {ErrorResponsesType} from 'shared/types'
-import {ConformityChart} from '../confirmityChart'
+import {
+  CardiologyChart,
+  ConformityChart,
+  NeurologyChart,
+  OtolaryngologyChart
+} from '../сhartData'
 
 export const UploadReport = (formData: FormData): Promise<AxiosResponse<{reportId: number}, null>> =>
   axios.post('report/upload', formData)
@@ -22,6 +27,9 @@ export type Report = {
   count: number,
 
   conformityChart: ConformityChart
+  neurologyChart: NeurologyChart
+  cardiologyChart: CardiologyChart
+  otolaryngologyChart: OtolaryngologyChart
 }
 
 type InitialStateProps = {
